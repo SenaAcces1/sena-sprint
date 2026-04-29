@@ -18,6 +18,16 @@ const Admin = () => {
     const [searchTermUsers, setSearchTermUsers] = useState('');
     const [searchTermIngresos, setSearchTermIngresos] = useState('');
     const [selectedFile, setSelectedFile] = useState(null);
+    const [equipmentData, setEquipmentData] = useState({
+        fk_id_usuario: '',
+        equipo_type: 'Portátil',
+        equipo_brand: '',
+        equipo_model: '',
+        equipo_color: '',
+        equipo_serial: '',
+        equipo_observations: ''
+    });
+    const [equipmentList, setEquipmentList] = useState([]);
     const [formData, setFormData] = useState({
         user_identification: '',
         user_name: '',
@@ -38,16 +48,18 @@ const Admin = () => {
                     return;
                 }
 
-                const [usersResponse, rolesResponse, ingresosResponse, userMeResponse] = await Promise.all([
+                const [usersResponse, rolesResponse, ingresosResponse, userMeResponse, equipmentResponse] = await Promise.all([
                     axios.get('/api/admin/users'),
                     axios.get('/api/admin/roles'),
                     axios.get('/api/admin/ingresos'),
-                    axios.get('/api/user')
+                    axios.get('/api/user'),
+                    axios.get('/api/admin/equipment')
                 ]);
                 setUsers(usersResponse.data);
                 setRoles(rolesResponse.data);
                 setIngresos(ingresosResponse.data);
                 setCurrentUser(userMeResponse.data);
+                setEquipmentList(equipmentResponse.data);
             } catch (error) {
                 console.error('Error cargando datos: ', error);
                 if (error.response && error.response.status === 401) {
@@ -186,6 +198,34 @@ const Admin = () => {
             handleCancelEdit();
         } catch (error) {
             alert('Error al actualizar usuario: ' + (error.response?.data?.message || 'Error desconocido'));
+        }
+    };
+
+    const handleEquipmentChange = (e) => {
+        setEquipmentData({
+            ...equipmentData,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleEquipmentSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('/api/admin/equipment', equipmentData);
+            setEquipmentList([response.data.data, ...equipmentList]);
+            alert('Comprobante creado con éxito');
+            setEquipmentData({
+                fk_id_usuario: '',
+                equipo_type: 'Portátil',
+                equipo_brand: '',
+                equipo_model: '',
+                equipo_color: '',
+                equipo_serial: '',
+                equipo_observations: ''
+            });
+            setView('historial_equipos');
+        } catch (error) {
+            alert('Error al crear comprobante: ' + (error.response?.data?.message || 'Error desconocido'));
         }
     };
 
@@ -463,6 +503,99 @@ const Admin = () => {
                         </div>
                     </div>
                 );
+            case 'equipo_entry':
+                return (
+                    <div className="fade-in-up">
+                        <div className="glass-box p-4 mb-5 mx-auto" style={{maxWidth: '850px'}}>
+                            <div className="section-header">
+                                <h3 className="mb-0">Nuevo Comprobante de Equipo</h3>
+                                <p className="opacity-50 small">Registrar ingreso de un dispositivo al centro</p>
+                            </div>
+                            <form onSubmit={handleEquipmentSubmit}>
+                                <div className="row">
+                                    <div className="col-md-12 mb-3">
+                                        <label className="form-label opacity-75 small">Seleccionar Usuario</label>
+                                        <select name="fk_id_usuario" className="form-control bg-dark text-white border-success" value={equipmentData.fk_id_usuario} onChange={handleEquipmentChange} required>
+                                            <option value="">Seleccione el dueño del equipo...</option>
+                                            {users.map(user => (
+                                                <option key={user.id_usuario} value={user.id_usuario}>
+                                                    {user.user_name} {user.user_lastname} - {user.user_identification}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div className="col-md-4 mb-3">
+                                        <label className="form-label opacity-75 small">Tipo de Equipo</label>
+                                        <select name="equipo_type" className="form-control bg-dark text-white border-success" value={equipmentData.equipo_type} onChange={handleEquipmentChange} required>
+                                            <option value="Portátil">Portátil</option>
+                                            <option value="Cámara">Cámara</option>
+                                            <option value="Herramienta">Herramienta</option>
+                                            <option value="Otro">Otro</option>
+                                        </select>
+                                    </div>
+                                    <div className="col-md-4 mb-3">
+                                        <label className="form-label opacity-75 small">Marca</label>
+                                        <input type="text" name="equipo_brand" className="form-control bg-dark text-white border-success" placeholder="Ej: Lenovo, HP..." value={equipmentData.equipo_brand} onChange={handleEquipmentChange} required />
+                                    </div>
+                                    <div className="col-md-4 mb-3">
+                                        <label className="form-label opacity-75 small">Modelo</label>
+                                        <input type="text" name="equipo_model" className="form-control bg-dark text-white border-success" placeholder="Ej: ThinkPad X1..." value={equipmentData.equipo_model} onChange={handleEquipmentChange} />
+                                    </div>
+                                    <div className="col-md-6 mb-3">
+                                        <label className="form-label opacity-75 small">Color</label>
+                                        <input type="text" name="equipo_color" className="form-control bg-dark text-white border-success" placeholder="Ej: Gris Espacial..." value={equipmentData.equipo_color} onChange={handleEquipmentChange} required />
+                                    </div>
+                                    <div className="col-md-6 mb-3">
+                                        <label className="form-label opacity-75 small">Número de Serie</label>
+                                        <input type="text" name="equipo_serial" className="form-control bg-dark text-white border-success" placeholder="S/N único..." value={equipmentData.equipo_serial} onChange={handleEquipmentChange} required />
+                                    </div>
+                                    <div className="col-12 mb-3">
+                                        <label className="form-label opacity-75 small">Observaciones / Estado</label>
+                                        <textarea name="equipo_observations" className="form-control bg-dark text-white border-success" rows="3" placeholder="Detalles adicionales del estado del equipo..." value={equipmentData.equipo_observations} onChange={handleEquipmentChange}></textarea>
+                                    </div>
+                                </div>
+                                <div className="mt-4">
+                                    <button type="submit" className="btn btn-success w-100 py-2 action-btn">
+                                        <span className="material-symbols-outlined">description</span> Generar Comprobante
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                );
+            case 'historial_equipos':
+                return (
+                    <div className="fade-in-up">
+                        <div className="table-responsive glass-box p-4 mb-5 mx-auto" style={{maxWidth: '1200px'}}>
+                            <div className="section-header">
+                                <h3 className="mb-0">Historial de Equipos</h3>
+                                <p className="opacity-50 small">Registros de ingreso de dispositivos</p>
+                            </div>
+                            <table className="table table-dark admin-table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Usuario</th>
+                                        <th>Equipo</th>
+                                        <th>Marca/Modelo</th>
+                                        <th>Serial</th>
+                                        <th>Fecha</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {equipmentList.map(item => (
+                                        <tr key={item.id_ingreso_equipo}>
+                                            <td>{item.user?.user_name} {item.user?.user_lastname}</td>
+                                            <td><span className="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25">{item.equipo_type}</span></td>
+                                            <td>{item.equipo_brand} {item.equipo_model}</td>
+                                            <td><code>{item.equipo_serial}</code></td>
+                                            <td>{new Date(item.entry_datetime).toLocaleString()}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                );
             case 'profile':
                 return (
                     <div className="fade-in-up container glass-box p-5 mx-auto" style={{maxWidth: '600px'}}>
@@ -523,82 +656,43 @@ const Admin = () => {
         }
     };
 
+    const adminLinks = [
+        { label: 'DASHBOARD', icon: 'dashboard', view: 'dashboard' },
+        { label: 'HISTORIAL', icon: 'history', view: 'historial' },
+        { 
+            label: 'COMPROBANTES', 
+            icon: 'description', 
+            view: 'equipo_entry',
+            dropdown: true,
+            items: [
+                { label: 'Nuevo Comprobante', icon: 'add_circle', view: 'equipo_entry' },
+                { label: 'Historial Equipos', icon: 'inventory_2', view: 'historial_equipos' }
+            ]
+        },
+        { 
+            label: 'GESTIÓN DE USUARIOS', 
+            icon: 'group', 
+            view: 'users',
+            dropdown: true,
+            items: [
+                { label: 'Instructores', icon: 'school', filter: 'Instructor', view: 'users' },
+                { label: 'Aprendices', icon: 'person', filter: 'Aprendiz', view: 'users' },
+                { divider: true },
+                { label: 'Ver Todos', icon: 'groups', filter: 'all', view: 'users' }
+            ]
+        }
+    ];
+
     return (
         <div className="min-vh-100 d-flex flex-column fade-in-up" style={{background: 'transparent'}}>
-            {/* Navbar Superior Consolidada */}
-            <nav className="navbar navbar-expand-lg px-4 py-2 navbar-custom mb-4" style={{position: 'sticky', top: 0, zIndex: 1000}}>
-                <div className="container-fluid p-0">
-                    {/* Logo y Marca */}
-                    <div className="d-flex align-items-center gap-3 me-4">
-                        <img src="/Icons/logoSena.png" alt="SENA" style={{height: '40px'}} />
-                        <div className="d-none d-sm-block">
-                            <h5 className="mb-0 fw-bold" style={{letterSpacing: '1px'}}>SENA <span className="text-success">ACCESS</span></h5>
-                            <span className="badge bg-success bg-opacity-10 text-success border border-success border-opacity-20" style={{fontSize: '0.6rem'}}>ADMIN PANEL</span>
-                        </div>
-                    </div>
-
-                    {/* Botón colapsable para móviles */}
-                    <button className="navbar-toggler border-success border-opacity-25" type="button" data-bs-toggle="collapse" data-bs-target="#navbarAdmin">
-                        <span className="material-symbols-outlined text-success">menu</span>
-                    </button>
-
-                    <div className="collapse navbar-collapse" id="navbarAdmin">
-                        {/* Enlaces de Navegación Centrales */}
-                        <ul className="navbar-nav me-auto mb-2 mb-lg-0 gap-2">
-                            <li className="nav-item">
-                                <button className={`nav-item-link ${view === 'dashboard' ? 'active' : ''}`} onClick={() => setView('dashboard')}>
-                                    <span className="material-symbols-outlined small me-1">dashboard</span> DASHBOARD
-                                </button>
-                            </li>
-                            <li className="nav-item">
-                                <button className={`nav-item-link ${view === 'historial' ? 'active' : ''}`} onClick={() => setView('historial')}>
-                                    <span className="material-symbols-outlined small me-1">history</span> HISTORIAL
-                                </button>
-                            </li>
-                            <li className="nav-item dropdown">
-                                <button className={`nav-item-link dropdown-toggle ${view === 'users' ? 'active' : ''}`} data-bs-toggle="dropdown">
-                                    <span className="material-symbols-outlined small me-1">group</span> GESTIÓN DE USUARIOS
-                                </button>
-                                <ul className="dropdown-menu glass-box border-success border-opacity-25 mt-2 shadow-lg">
-                                    <li><button className="dropdown-item py-2 d-flex align-items-center gap-2" onClick={() => { setView('users'); setUserFilter('Instructor'); }}>
-                                        <span className="material-symbols-outlined small">school</span> Instructores
-                                    </button></li>
-                                    <li><button className="dropdown-item py-2 d-flex align-items-center gap-2" onClick={() => { setView('users'); setUserFilter('Aprendiz'); }}>
-                                        <span className="material-symbols-outlined small">person</span> Aprendices
-                                    </button></li>
-                                    <li><hr className="dropdown-divider border-success border-opacity-10" /></li>
-                                    <li><button className="dropdown-item py-2 d-flex align-items-center gap-2" onClick={() => { setView('users'); setUserFilter('all'); }}>
-                                        <span className="material-symbols-outlined small">groups</span> Ver Todos
-                                    </button></li>
-                                </ul>
-                            </li>
-                        </ul>
-
-                        {/* Perfil y Acciones (Derecha) */}
-                        <div className="d-flex align-items-center gap-3 ms-auto pt-2 pt-lg-0 border-top border-lg-0 border-success border-opacity-10">
-                            <div className="profile-nav-trigger d-flex align-items-center gap-2 cursor-pointer p-1 px-2 rounded-pill hover-bg" onClick={() => setView('profile')} style={{cursor: 'pointer', transition: 'all 0.2s'}}>
-                                <div className="text-end d-none d-md-block">
-                                    <p className="mb-0 fw-bold small text-truncate" style={{maxWidth: '150px'}}>{currentUser?.user_name}</p>
-                                    <p className="mb-0 opacity-50" style={{fontSize: '0.65rem'}}>{currentUser?.role?.rol_name}</p>
-                                </div>
-                                <div className="rounded-circle bg-success d-flex align-items-center justify-content-center shadow-sm border border-2 border-success border-opacity-25 overflow-hidden" style={{width: '38px', height: '38px', fontSize: '0.9rem', fontWeight: 'bold', color: '#000'}}>
-                                    {currentUser?.profile_photo_path ? (
-                                        <img src={currentUser.profile_photo_path} alt="Profile" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
-                                    ) : (
-                                        <>{currentUser?.user_name[0]}{currentUser?.user_lastname[0]}</>
-                                    )}
-                                </div>
-                            </div>
-
-                            <div className="vr d-none d-lg-block opacity-25" style={{height: '30px'}}></div>
-
-                            <button className="btn-logout-minimal" onClick={handleLogout} title="Cerrar Sesión">
-                                <span className="material-symbols-outlined">logout</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </nav>
+            <Navbar 
+                currentUser={currentUser} 
+                view={view} 
+                setView={setView} 
+                userFilter={userFilter} 
+                setUserFilter={setUserFilter} 
+                links={adminLinks}
+            />
 
             {/* Contenido Principal */}
             <main className="container-fluid px-4 px-md-5 py-2 flex-grow-1">
@@ -612,7 +706,7 @@ const Admin = () => {
                     background: transparent;
                     border: none;
                     color: var(--text-color);
-                    font-size: 0.75rem;
+                    font-size: 0.50rem;
                     font-weight: 700;
                     letter-spacing: 1px;
                     padding: 8px 12px;

@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\EquipmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,5 +36,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/users/{id}', [AdminController::class, 'updateUser']);
         Route::delete('/users/{id}', [AdminController::class, 'deleteUser']);
         Route::get('/roles', [AdminController::class, 'getRoles']);
+
+        // Equipment Voucher Routes
+        Route::get('/equipment', [EquipmentController::class, 'index']);
+        Route::post('/equipment', [EquipmentController::class, 'store']);
     });
 });
