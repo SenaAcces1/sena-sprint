@@ -29,6 +29,7 @@ class User extends Authenticatable
         'user_coursenumber',
         'user_program',
         'fk_id_rol',
+        'profile_photo_path',
     ];
 
     /**
@@ -78,6 +79,19 @@ class User extends Authenticatable
     public function Novedades()
     {
         return $this->hasMany(Novedad::class, 'fk_id_usuario', 'id_usuario');
+    }
+
+    /**
+     * Sube una imagen a Cloudinary y actualiza el campo profile_photo_path.
+     * 
+     * @param \Illuminate\Http\UploadedFile $file
+     * @return string URL de la imagen subida
+     */
+    public function updateProfilePhoto($file)
+    {
+        $path = $file->storeOnCloudinary('avatars')->getSecurePath();
+        $this->update(['profile_photo_path' => $path]);
+        return $path;
     }
 }
 

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 use App\Models\Ingreso;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class AdminController extends Controller
 {
@@ -34,7 +35,13 @@ class AdminController extends Controller
             'user_coursenumber' => 'required',
             'user_program' => 'required',
             'fk_id_rol' => 'required|exists:roles,id_rol',
+            'image' => 'nullable|image|max:2048',
         ]);
+
+        $profile_photo_path = null;
+        if ($request->hasFile('image')) {
+            $profile_photo_path = $request->file('image')->storeOnCloudinary('avatars')->getSecurePath();
+        }
 
         $user = User::create([
             'user_identification' => $request->user_identification,
@@ -45,6 +52,7 @@ class AdminController extends Controller
             'user_coursenumber' => $request->user_coursenumber,
             'user_program' => $request->user_program,
             'fk_id_rol' => $request->fk_id_rol,
+            'profile_photo_path' => $profile_photo_path,
         ]);
 
         return response()->json($user, 201);
@@ -70,7 +78,13 @@ class AdminController extends Controller
             'user_coursenumber' => 'required',
             'user_program' => 'required',
             'fk_id_rol' => 'required|exists:roles,id_rol',
+            'image' => 'nullable|image|max:2048',
         ]);
+
+        if ($request->hasFile('image')) {
+            $profile_photo_path = $request->file('image')->storeOnCloudinary('avatars')->getSecurePath();
+            $user->profile_photo_path = $profile_photo_path;
+        }
 
         $user->user_identification = $request->user_identification;
         $user->user_name = $request->user_name;

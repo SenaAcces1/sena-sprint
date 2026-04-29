@@ -20,6 +20,11 @@
     --input-group-border: #02d914;
     --input-placeholder: rgba(255, 255, 255, 0.4);
     
+    /* Dropdown Variables */
+    --dropdown-bg: rgba(15, 15, 15, 0.95);
+    --dropdown-item-hover: rgba(2, 217, 20, 0.1);
+    --dropdown-border: var(--primary-color);
+    
     /* Admin Specific Variables */
     --stat-card-border: rgba(2, 217, 20, 0.2);
     --stat-icon-bg: rgba(2, 217, 20, 0.1);
@@ -43,6 +48,11 @@ body.light-mode {
     --input-group-bg: rgba(255, 255, 255, 0.95);
     --input-group-border: #16a34a;
     --input-placeholder: rgba(0, 0, 0, 0.4);
+
+    /* Dropdown Light Mode */
+    --dropdown-bg: rgba(255, 255, 255, 0.95);
+    --dropdown-item-hover: rgba(22, 163, 74, 0.1);
+    --dropdown-border: #16a34a;
 
     /* Admin Light Mode Adjustments */
     --stat-card-border: rgba(22, 163, 74, 0.3);

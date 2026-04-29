@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Footer from './Footer';
+import Navbar from './Navbar';
 
 const Admin = () => {
     const navigate = useNavigate();
@@ -16,6 +17,7 @@ const Admin = () => {
     const [editingUser, setEditingUser] = useState(null);
     const [searchTermUsers, setSearchTermUsers] = useState('');
     const [searchTermIngresos, setSearchTermIngresos] = useState('');
+    const [selectedFile, setSelectedFile] = useState(null);
     const [formData, setFormData] = useState({
         user_identification: '',
         user_name: '',
@@ -123,12 +125,14 @@ const Admin = () => {
             user_password: '', 
             user_coursenumber: user.user_coursenumber,
             user_program: user.user_program,
-            fk_id_rol: user.fk_id_rol
+            fk_id_rol: user.fk_id_rol,
+            profile_photo_path: user.profile_photo_path || null
         });
     };
     // funcion flecha para manejar la cancelacion de edicion de usuario
     const handleCancelEdit = () => {
         setEditingUser(null);
+        setSelectedFile(null);
         setFormData({
             user_identification: '',
             user_name: '',
@@ -148,11 +152,36 @@ const Admin = () => {
         });
     };
 
+    const handleFileChange = (e) => {
+        setSelectedFile(e.target.files[0]);
+    };
+
     const handleUpdate = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.put(`/api/admin/users/${editingUser}`, formData);
+            const data = new FormData();
+            Object.keys(formData).forEach(key => {
+                data.append(key, formData[key]);
+            });
+            if (selectedFile) {
+                data.append('image', selectedFile);
+            }
+            // Workaround para PUT con FormData en Laravel
+            data.append('_method', 'PUT');
+
+            const response = await axios.post(`/api/admin/users/${editingUser}`, data, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            
             setUsers(users.map(u => u.id_usuario === editingUser ? response.data : u));
+            
+            // Si el usuario editado es el actual, actualizarlo también
+            if (currentUser && currentUser.id_usuario === editingUser) {
+                setCurrentUser(response.data);
+            }
+
             alert('Usuario actualizado con éxito');
             handleCancelEdit();
         } catch (error) {
@@ -218,6 +247,22 @@ const Admin = () => {
                                 </div>
                                 <form onSubmit={handleUpdate}>
                                     <div className="row">
+                                        <div className="col-12 mb-3 text-center">
+                                            <div className="user-avatar-lg mx-auto mb-2 shadow overflow-hidden border border-success">
+                                                {selectedFile ? (
+                                                    <img src={URL.createObjectURL(selectedFile)} alt="Preview" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+                                                ) : formData.profile_photo_path ? (
+                                                    <img src={formData.profile_photo_path} alt="Avatar" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+                                                ) : (
+                                                    <span className="material-symbols-outlined" style={{fontSize: '3rem'}}>add_a_photo</span>
+                                                )}
+                                            </div>
+                                            <label className="btn btn-outline-success btn-sm cursor-pointer">
+                                                <span className="material-symbols-outlined small me-1">upload</span>
+                                                {selectedFile || formData.profile_photo_path ? 'Cambiar Foto' : 'Subir Foto'}
+                                                <input type="file" className="d-none" onChange={handleFileChange} accept="image/*" />
+                                            </label>
+                                        </div>
                                         <div className="col-md-4 mb-3">
                                             <label className="form-label opacity-75 small">N° Documento</label>
                                             <input type="text" name="user_identification" className="form-control bg-dark text-white border-success" value={formData.user_identification} onChange={handleChange} required />
@@ -302,7 +347,7 @@ const Admin = () => {
                                                     <button className="settings-btn" data-bs-toggle="dropdown">
                                                         <span className="material-symbols-outlined">settings</span>
                                                     </button>
-                                                    <ul className="dropdown-menu dropdown-menu-dark glass-box border-success border-opacity-25 shadow-lg">
+                                                    <ul className="dropdown-menu glass-box border-success border-opacity-25 shadow-lg">
                                                         <li>
                                                             <button className="dropdown-item d-flex align-items-center gap-2 py-2" onClick={() => handleEditClick(user)}>
                                                                 <span className="material-symbols-outlined text-warning small">edit</span> Editar
@@ -318,8 +363,12 @@ const Admin = () => {
                                             </div>
 
                                             <div className="user-card-header text-center pt-4 mb-3">
-                                                <div className="user-avatar-lg mx-auto mb-3 shadow">
-                                                    {user.user_name[0]}{user.user_lastname[0]}
+                                                <div className="user-avatar-lg mx-auto mb-3 shadow overflow-hidden">
+                                                    {user.profile_photo_path ? (
+                                                        <img src={user.profile_photo_path} alt="Avatar" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+                                                    ) : (
+                                                        <>{user.user_name[0]}{user.user_lastname[0]}</>
+                                                    )}
                                                 </div>
                                                 <h5 className="mb-1 text-truncate px-2">{user.user_name} {user.user_lastname}</h5>
                                                 <span className={`badge ${user.role?.rol_name === 'Admin' ? 'bg-danger' : 'bg-success'} bg-opacity-10 text-white border border-${user.role?.rol_name === 'Admin' ? 'danger' : 'success'} border-opacity-25`} style={{fontSize: '0.65rem'}}>
@@ -403,7 +452,7 @@ const Admin = () => {
                                                 </div>
                                             </td>
                                             <td>
-                                                <span className="badge bg-dark border border-success border-opacity-25 px-3 py-2">
+                                                <span className="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 py-2" style={{fontSize: '0.75rem'}}>
                                                     {ingreso.ingreso_place}
                                                 </span>
                                             </td>
@@ -418,8 +467,12 @@ const Admin = () => {
                 return (
                     <div className="fade-in-up container glass-box p-5 mx-auto" style={{maxWidth: '600px'}}>
                         <div className="text-center mb-4">
-                            <div className="rounded-circle bg-success mx-auto d-flex align-items-center justify-content-center mb-3" style={{width: '100px', height: '100px', fontSize: '2.5rem', fontWeight: 'bold'}}>
-                                {currentUser?.user_name[0]}{currentUser?.user_lastname[0]}
+                            <div className="rounded-circle bg-success mx-auto d-flex align-items-center justify-content-center mb-3 shadow overflow-hidden" style={{width: '100px', height: '100px', fontSize: '2.5rem', fontWeight: 'bold'}}>
+                                {currentUser?.profile_photo_path ? (
+                                    <img src={currentUser.profile_photo_path} alt="Profile" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+                                ) : (
+                                    <>{currentUser?.user_name[0]}{currentUser?.user_lastname[0]}</>
+                                )}
                             </div>
                             <h3 className="mb-1">{currentUser?.user_name} {currentUser?.user_lastname}</h3>
                             <span className="badge bg-success bg-opacity-25 text-success border border-success border-opacity-50 px-3 py-1">
@@ -506,7 +559,7 @@ const Admin = () => {
                                 <button className={`nav-item-link dropdown-toggle ${view === 'users' ? 'active' : ''}`} data-bs-toggle="dropdown">
                                     <span className="material-symbols-outlined small me-1">group</span> GESTIÓN DE USUARIOS
                                 </button>
-                                <ul className="dropdown-menu dropdown-menu-dark glass-box border-success border-opacity-25 mt-2 shadow-lg">
+                                <ul className="dropdown-menu glass-box border-success border-opacity-25 mt-2 shadow-lg">
                                     <li><button className="dropdown-item py-2 d-flex align-items-center gap-2" onClick={() => { setView('users'); setUserFilter('Instructor'); }}>
                                         <span className="material-symbols-outlined small">school</span> Instructores
                                     </button></li>
@@ -528,8 +581,12 @@ const Admin = () => {
                                     <p className="mb-0 fw-bold small text-truncate" style={{maxWidth: '150px'}}>{currentUser?.user_name}</p>
                                     <p className="mb-0 opacity-50" style={{fontSize: '0.65rem'}}>{currentUser?.role?.rol_name}</p>
                                 </div>
-                                <div className="rounded-circle bg-success d-flex align-items-center justify-content-center shadow-sm border border-2 border-success border-opacity-25" style={{width: '38px', height: '38px', fontSize: '0.9rem', fontWeight: 'bold', color: '#000'}}>
-                                    {currentUser?.user_name[0]}{currentUser?.user_lastname[0]}
+                                <div className="rounded-circle bg-success d-flex align-items-center justify-content-center shadow-sm border border-2 border-success border-opacity-25 overflow-hidden" style={{width: '38px', height: '38px', fontSize: '0.9rem', fontWeight: 'bold', color: '#000'}}>
+                                    {currentUser?.profile_photo_path ? (
+                                        <img src={currentUser.profile_photo_path} alt="Profile" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+                                    ) : (
+                                        <>{currentUser?.user_name[0]}{currentUser?.user_lastname[0]}</>
+                                    )}
                                 </div>
                             </div>
 
@@ -597,12 +654,17 @@ const Admin = () => {
                     transition: all 0.2s;
                 }
                 .dropdown-item:hover {
-                    background: rgba(2, 217, 20, 0.1);
+                    background: var(--dropdown-item-hover);
                     color: var(--primary-color);
                     padding-left: 1.25rem;
                 }
                 .dropdown-menu {
-                    backdrop-filter: blur(15px);
+                    background: var(--dropdown-bg) !important;
+                    border: 1px solid var(--dropdown-border) !important;
+                    backdrop-filter: blur(20px);
+                    border-radius: 15px;
+                    padding: 8px;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
                 }
                 .cursor-pointer {
                     cursor: pointer;
@@ -719,15 +781,6 @@ const Admin = () => {
                     color: #000;
                     transform: rotate(45deg);
                     box-shadow: 0 0 15px rgba(2, 217, 20, 0.4);
-                }
-                .dropdown-menu-dark {
-                    background: rgba(15, 15, 15, 0.95) !important;
-                    border: 1px solid var(--primary-color) !important;
-                    backdrop-filter: blur(20px);
-                    border-radius: 15px;
-                    padding: 8px;
-                    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-                    margin-top: 10px !important;
                 }
                 .user-avatar-lg {
                     width: 85px;
