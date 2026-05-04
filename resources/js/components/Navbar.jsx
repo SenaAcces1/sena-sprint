@@ -20,7 +20,7 @@ const Navbar = ({ currentUser, view, setView, userFilter, setUserFilter, links =
     };
 
     return (
-        <nav className="navbar navbar-expand-lg px-4 py-2 navbar-custom mb-4" style={{ position: 'sticky', top: 0, zIndex: 1000 }}>
+        <nav className="navbar navbar-expand-lg px-4 py-2 navbar-custom">
             <div className="container-fluid p-0">
                 {/* Logo y Marca */}
                 <div className="d-flex align-items-center gap-3 me-4">

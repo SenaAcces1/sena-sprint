@@ -12,6 +12,7 @@ import Fingerprint from './components/Fingerprint';
 import Loading from './components/Loading';
 import Admin from './components/Admin';
 import Aprendiz from './components/Aprendiz';
+import LandingPage from './components/LandingPage';
 
 console.log("Iniciando aplicación React...");
 // Componente principal de la aplicación
@@ -51,7 +52,7 @@ const App = () => {
             </div>
             <Suspense fallback={<div className="text-white text-center mt-5">Cargando componentes...</div>}>
                 <Routes>
-                    <Route path="/" element={<Login />} />
+                    <Route path="/" element={<LandingPage />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/password-recovery" element={<PasswordRecovery />} />
