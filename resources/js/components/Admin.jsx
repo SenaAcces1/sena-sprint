@@ -18,6 +18,8 @@ const Admin = () => {
     const [editingUser, setEditingUser] = useState(null);
     const [searchTermUsers, setSearchTermUsers] = useState('');
     const [searchTermIngresos, setSearchTermIngresos] = useState('');
+    const [searchTermEquipment, setSearchTermEquipment] = useState('');
+    const [userSearchVoucher, setUserSearchVoucher] = useState('');
     const [selectedFile, setSelectedFile] = useState(null);
     const [equipmentData, setEquipmentData] = useState({
         fk_id_usuario: '',
@@ -101,9 +103,31 @@ const Admin = () => {
             ingreso.ingreso_place.toLowerCase().includes(search) ||
             new Date(ingreso.ingreso_datetime).toLocaleString().toLowerCase().includes(search)
         );
-    });
+        });
 
-    const handleLogout = async () => { // Logica para el log-out asincronica 
+        const filteredEquipment = equipmentList.filter(item => {
+        const search = searchTermEquipment.toLowerCase();
+        const userName = `${item.user?.user_name} ${item.user?.user_lastname}`.toLowerCase();
+        return (
+            userName.includes(search) ||
+            item.equipo_type.toLowerCase().includes(search) ||
+            item.equipo_brand.toLowerCase().includes(search) ||
+            item.equipo_serial.toLowerCase().includes(search) ||
+            item.user?.user_identification?.toLowerCase().includes(search)
+        );
+        });
+
+        const searchableUsers = users.filter(user => {
+        const search = userSearchVoucher.toLowerCase();
+        return (
+            user.user_name.toLowerCase().includes(search) ||
+            user.user_lastname.toLowerCase().includes(search) ||
+            user.user_identification?.toLowerCase().includes(search)
+        );
+        });
+
+        const handleLogout = async () => {
+ // Logica para el log-out asincronica 
         try {
             await axios.post('/api/logout');
             localStorage.removeItem('access_token');
@@ -131,18 +155,16 @@ const Admin = () => {
         setEditingUser(user.id_usuario);
         setFormData({
             user_identification: user.user_identification || '',
-            user_name: user.user_name,
-            user_lastname: user.user_lastname,
-            user_email: user.user_email,
-            //Password vacio para no mostrarlo, se actualiza solo si se ingresa uno nuevo
-            user_password: '', 
-            user_coursenumber: user.user_coursenumber,
-            user_program: user.user_program,
-            fk_id_rol: user.fk_id_rol,
+            user_name: user.user_name || '',
+            user_lastname: user.user_lastname || '',
+            user_email: user.user_email || '',
+            user_password: '',
+            user_coursenumber: user.user_coursenumber || '',
+            user_program: user.user_program || '',
+            fk_id_rol: user.fk_id_rol || '',
             profile_photo_path: user.profile_photo_path || null
         });
     };
-
     const handleCancelEdit = () => {
         setEditingUser(null);
         setSelectedFile(null);
@@ -313,35 +335,35 @@ const Admin = () => {
                                             <div className="col-md-4 mb-3">
 
                                             <label className="form-label opacity-75 small">N° Documento</label>
-                                            <input type="text" name="user_identification" className="form-control bg-dark text-white border-success" value={formData.user_identification} onChange={handleChange} required />
+                                            <input type="text" name="user_identification" className="form-control" value={formData.user_identification} onChange={handleChange} required />
                                         </div>
                                         <div className="col-md-4 mb-3">
                                             <label className="form-label opacity-75 small">Nombre</label>
-                                            <input type="text" name="user_name" className="form-control bg-dark text-white border-success" value={formData.user_name} onChange={handleChange} required />
+                                            <input type="text" name="user_name" className="form-control" value={formData.user_name} onChange={handleChange} required />
                                         </div>
                                         <div className="col-md-4 mb-3">
                                             <label className="form-label opacity-75 small">Apellido</label>
-                                            <input type="text" name="user_lastname" className="form-control bg-dark text-white border-success" value={formData.user_lastname} onChange={handleChange} required />
+                                            <input type="text" name="user_lastname" className="form-control" value={formData.user_lastname} onChange={handleChange} required />
                                         </div>
                                         <div className="col-md-6 mb-3">
                                             <label className="form-label opacity-75 small">Email Institucional</label>
-                                            <input type="email" name="user_email" className="form-control bg-dark text-white border-success" value={formData.user_email} onChange={handleChange} required />
+                                            <input type="email" name="user_email" className="form-control" value={formData.user_email} onChange={handleChange} required />
                                         </div>
                                         <div className="col-md-6 mb-3">
                                             <label className="form-label opacity-75 small">Seguridad (Opcional)</label>
-                                            <input type="password" name="user_password" placeholder="Nueva contraseña..." className="form-control bg-dark text-white border-success" value={formData.user_password} onChange={handleChange} />
+                                            <input type="password" name="user_password" placeholder="Nueva contraseña..." className="form-control" value={formData.user_password} onChange={handleChange} />
                                         </div>
                                         <div className="col-md-4 mb-3">
                                             <label className="form-label opacity-75 small">Ficha</label>
-                                            <input type="number" name="user_coursenumber" className="form-control bg-dark text-white border-success" value={formData.user_coursenumber} onChange={handleChange} required />
+                                            <input type="number" name="user_coursenumber" className="form-control" value={formData.user_coursenumber} onChange={handleChange} required />
                                         </div>
                                         <div className="col-md-4 mb-3">
                                             <label className="form-label opacity-75 small">Programa</label>
-                                            <input type="text" name="user_program" className="form-control bg-dark text-white border-success" value={formData.user_program} onChange={handleChange} required />
+                                            <input type="text" name="user_program" className="form-control" value={formData.user_program} onChange={handleChange} required />
                                         </div>
                                         <div className="col-md-4 mb-3">
                                             <label className="form-label opacity-75 small">Rol Asignado</label>
-                                            <select name="fk_id_rol" className="form-control bg-dark text-white border-success" value={formData.fk_id_rol} onChange={handleChange} required>
+                                            <select name="fk_id_rol" className="form-select" value={formData.fk_id_rol} onChange={handleChange} required>
                                                 <option value="">Seleccione un rol</option>
                                                 {roles.map(role => (
                                                     <option key={role.id_rol} value={role.id_rol}>{role.rol_name}</option>
@@ -522,10 +544,22 @@ const Admin = () => {
                             <form onSubmit={handleEquipmentSubmit}>
                                 <div className="row">
                                     <div className="col-md-12 mb-3">
-                                        <label className="form-label opacity-75 small">Seleccionar Usuario</label>
-                                        <select name="fk_id_usuario" className="form-control bg-dark text-white border-success" value={equipmentData.fk_id_usuario} onChange={handleEquipmentChange} required>
-                                            <option value="">Seleccione el dueño del equipo...</option>
-                                            {users.map(user => (
+                                        <label className="form-label opacity-75 small">Buscar y Seleccionar Usuario</label>
+                                        <div className="input-group mb-2">
+                                            <span className="input-group-text">
+                                                <span className="material-symbols-outlined small">person_search</span>
+                                            </span>
+                                            <input 
+                                                type="text" 
+                                                className="form-control" 
+                                                placeholder="Nombre, apellido o identificación..." 
+                                                value={userSearchVoucher}
+                                                onChange={(e) => setUserSearchVoucher(e.target.value)}
+                                            />
+                                        </div>
+                                        <select name="fk_id_usuario" className="form-select" value={equipmentData.fk_id_usuario} onChange={handleEquipmentChange} required>
+                                            <option value="">{searchableUsers.length === 0 ? 'No se encontraron usuarios' : 'Seleccione el dueño del equipo...'}</option>
+                                            {searchableUsers.map(user => (
                                                 <option key={user.id_usuario} value={user.id_usuario}>
                                                     {user.user_name} {user.user_lastname} - {user.user_identification}
                                                 </option>
@@ -534,7 +568,7 @@ const Admin = () => {
                                     </div>
                                     <div className="col-md-4 mb-3">
                                         <label className="form-label opacity-75 small">Tipo de Equipo</label>
-                                        <select name="equipo_type" className="form-control bg-dark text-white border-success" value={equipmentData.equipo_type} onChange={handleEquipmentChange} required>
+                                        <select name="equipo_type" className="form-select" value={equipmentData.equipo_type} onChange={handleEquipmentChange} required>
                                             <option value="Portátil">Portátil</option>
                                             <option value="Cámara">Cámara</option>
                                             <option value="Herramienta">Herramienta</option>
@@ -543,23 +577,23 @@ const Admin = () => {
                                     </div>
                                     <div className="col-md-4 mb-3">
                                         <label className="form-label opacity-75 small">Marca</label>
-                                        <input type="text" name="equipo_brand" className="form-control bg-dark text-white border-success" placeholder="Ej: Lenovo, HP..." value={equipmentData.equipo_brand} onChange={handleEquipmentChange} required />
+                                        <input type="text" name="equipo_brand" className="form-control" placeholder="Ej: Lenovo, HP..." value={equipmentData.equipo_brand} onChange={handleEquipmentChange} required />
                                     </div>
                                     <div className="col-md-4 mb-3">
                                         <label className="form-label opacity-75 small">Modelo</label>
-                                        <input type="text" name="equipo_model" className="form-control bg-dark text-white border-success" placeholder="Ej: ThinkPad X1..." value={equipmentData.equipo_model} onChange={handleEquipmentChange} />
+                                        <input type="text" name="equipo_model" className="form-control" placeholder="Ej: ThinkPad X1..." value={equipmentData.equipo_model} onChange={handleEquipmentChange} />
                                     </div>
                                     <div className="col-md-6 mb-3">
                                         <label className="form-label opacity-75 small">Color</label>
-                                        <input type="text" name="equipo_color" className="form-control bg-dark text-white border-success" placeholder="Ej: Gris Espacial..." value={equipmentData.equipo_color} onChange={handleEquipmentChange} required />
+                                        <input type="text" name="equipo_color" className="form-control" placeholder="Ej: Gris Espacial..." value={equipmentData.equipo_color} onChange={handleEquipmentChange} required />
                                     </div>
                                     <div className="col-md-6 mb-3">
                                         <label className="form-label opacity-75 small">Número de Serie</label>
-                                        <input type="text" name="equipo_serial" className="form-control bg-dark text-white border-success" placeholder="S/N único..." value={equipmentData.equipo_serial} onChange={handleEquipmentChange} required />
+                                        <input type="text" name="equipo_serial" className="form-control" placeholder="S/N único..." value={equipmentData.equipo_serial} onChange={handleEquipmentChange} required />
                                     </div>
                                     <div className="col-12 mb-3">
                                         <label className="form-label opacity-75 small">Observaciones / Estado</label>
-                                        <textarea name="equipo_observations" className="form-control bg-dark text-white border-success" rows="3" placeholder="Detalles adicionales del estado del equipo..." value={equipmentData.equipo_observations} onChange={handleEquipmentChange}></textarea>
+                                        <textarea name="equipo_observations" className="form-control" rows="3" placeholder="Detalles adicionales del estado del equipo..." value={equipmentData.equipo_observations} onChange={handleEquipmentChange}></textarea>
                                     </div>
                                 </div>
                                 <div className="mt-4">
@@ -575,9 +609,23 @@ const Admin = () => {
                 return (
                     <div className="fade-in-up">
                         <div className="table-responsive glass-box p-4 mb-5 mx-auto" style={{maxWidth: '1200px'}}>
-                            <div className="section-header">
-                                <h3 className="mb-0">Historial de Equipos</h3>
-                                <p className="opacity-50 small">Registros de ingreso de dispositivos</p>
+                            <div className="section-header d-flex justify-content-between align-items-center flex-wrap gap-3">
+                                <div>
+                                    <h3 className="mb-0">Historial de Equipos</h3>
+                                    <p className="opacity-50 small">Registros de ingreso de dispositivos</p>
+                                </div>
+                                <div className="input-group search-input-group" style={{maxWidth: '350px'}}>
+                                    <span className="input-group-text">
+                                        <span className="material-symbols-outlined">search</span>
+                                    </span>
+                                    <input 
+                                        type="text" 
+                                        className="form-control" 
+                                        placeholder="Buscar por usuario, equipo o serial..." 
+                                        value={searchTermEquipment}
+                                        onChange={(e) => setSearchTermEquipment(e.target.value)}
+                                    />
+                                </div>
                             </div>
                             <table className="table table-dark admin-table mb-0">
                                 <thead>
@@ -590,7 +638,7 @@ const Admin = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {equipmentList.map(item => (
+                                    {filteredEquipment.length > 0 ? filteredEquipment.map(item => (
                                         <tr key={item.id_ingreso_equipo}>
                                             <td>{item.user?.user_name} {item.user?.user_lastname}</td>
                                             <td><span className="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25">{item.equipo_type}</span></td>
@@ -598,7 +646,11 @@ const Admin = () => {
                                             <td><code>{item.equipo_serial}</code></td>
                                             <td>{new Date(item.entry_datetime).toLocaleString()}</td>
                                         </tr>
-                                    ))}
+                                    )) : (
+                                        <tr>
+                                            <td colSpan="5" className="text-center py-4 opacity-50">No se encontraron registros de equipos.</td>
+                                        </tr>
+                                    )}
                                 </tbody>
                             </table>
                         </div>

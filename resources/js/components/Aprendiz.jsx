@@ -142,31 +142,31 @@ const Aprendiz = () => {
 
                                 <div className="col-md-4 mb-3">
                                     <label className="form-label opacity-75 small">N° Documento</label>
-                                    <input type="text" name="user_identification" className="form-control bg-dark text-white border-success" value={formData.user_identification} onChange={handleChange} required />
+                                    <input type="text" name="user_identification" className="form-control" value={formData.user_identification} onChange={handleChange} required />
                                 </div>
                                 <div className="col-md-4 mb-3">
                                     <label className="form-label opacity-75 small">Nombre</label>
-                                    <input type="text" name="user_name" className="form-control bg-dark text-white border-success" value={formData.user_name} onChange={handleChange} required />
+                                    <input type="text" name="user_name" className="form-control" value={formData.user_name} onChange={handleChange} required />
                                 </div>
                                 <div className="col-md-4 mb-3">
                                     <label className="form-label opacity-75 small">Apellido</label>
-                                    <input type="text" name="user_lastname" className="form-control bg-dark text-white border-success" value={formData.user_lastname} onChange={handleChange} required />
+                                    <input type="text" name="user_lastname" className="form-control" value={formData.user_lastname} onChange={handleChange} required />
                                 </div>
                                 <div className="col-md-6 mb-3">
                                     <label className="form-label opacity-75 small">Email Institucional</label>
-                                    <input type="email" name="user_email" className="form-control bg-dark text-white border-success" value={formData.user_email} onChange={handleChange} required />
+                                    <input type="email" name="user_email" className="form-control" value={formData.user_email} onChange={handleChange} required />
                                 </div>
                                 <div className="col-md-6 mb-3">
                                     <label className="form-label opacity-75 small">Nueva Contraseña (Opcional)</label>
-                                    <input type="password" name="user_password" placeholder="Mínimo 6 caracteres..." className="form-control bg-dark text-white border-success" value={formData.user_password} onChange={handleChange} />
+                                    <input type="password" name="user_password" placeholder="Mínimo 6 caracteres..." className="form-control" value={formData.user_password} onChange={handleChange} />
                                 </div>
                                 <div className="col-md-6 mb-3">
                                     <label className="form-label opacity-75 small">Ficha</label>
-                                    <input type="number" name="user_coursenumber" className="form-control bg-dark text-white border-success" value={formData.user_coursenumber} onChange={handleChange} required />
+                                    <input type="number" name="user_coursenumber" className="form-control" value={formData.user_coursenumber} onChange={handleChange} required />
                                 </div>
                                 <div className="col-md-6 mb-3">
                                     <label className="form-label opacity-75 small">Programa</label>
-                                    <input type="text" name="user_program" className="form-control bg-dark text-white border-success" value={formData.user_program} onChange={handleChange} required />
+                                    <input type="text" name="user_program" className="form-control" value={formData.user_program} onChange={handleChange} required />
                                 </div>
                             </div>
                             <div className="d-flex gap-2 mt-4">

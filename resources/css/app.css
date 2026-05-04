@@ -141,15 +141,34 @@ body {
     width: 100%;
 }
 
-/* Fix for table and inputs in light mode */
+/* Fix for table and inputs in theme modes */
+.form-control, .form-select {
+    background-color: var(--input-group-bg) !important;
+    color: var(--input-text) !important;
+    border: 1px solid var(--input-group-border) !important;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: var(--input-group-bg) !important;
+    color: var(--input-text) !important;
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 0.25rem rgba(2, 217, 20, 0.25) !important;
+}
+
+.form-control::placeholder {
+    color: var(--input-placeholder) !important;
+}
+
+.input-group-text {
+    background-color: var(--input-group-bg) !important;
+    color: var(--primary-color) !important;
+    border: 1px solid var(--input-group-border) !important;
+}
+
 body.light-mode .table {
     --bs-table-bg: rgba(255, 255, 255, 0.8);
     --bs-table-color: #1a1a1a;
-}
-
-body.light-mode .form-control {
-    background-color: rgba(255, 255, 255, 0.9) !important;
-    color: var(--text-color)
 }
 
 /* Theme Toggle Button */
