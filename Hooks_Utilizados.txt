@@ -1,11 +1,9 @@
-====================================================
-RESUMEN DE HOOKS UTILIZADOS EN SENA ACCESS
-====================================================
+
 
 A continuación se detalla la lista de Hooks de React utilizados en el proyecto y los componentes principales donde fueron aplicados:
 
 1. useState
-----------------------------------------------------
+
 Se utilizó intensivamente para manejar el estado local de los componentes: almacenar datos temporales, controlar la interfaz gráfica y manejar la información de los formularios.
 
 Aplicado en:
@@ -18,7 +16,7 @@ Aplicado en:
 
 
 2. useEffect
-----------------------------------------------------
+
 Se utilizó para manejar los efectos secundarios, principalmente para hacer peticiones HTTP asíncronas automáticamente cuando el usuario entra a una pantalla, o para validaciones de seguridad.
 
 Aplicado en:
@@ -27,7 +25,7 @@ Aplicado en:
 
 
 3. useNavigate (de react-router-dom)
-----------------------------------------------------
+
 Se utilizó para programar la navegación entre las distintas rutas de la aplicación de manera fluida (Single Page Application) sin recargar el navegador web.
 
 Aplicado en:
@@ -38,7 +36,7 @@ Aplicado en:
 
 
 4. useRef
-----------------------------------------------------
+
 Se utilizó para mantener una referencia directa a elementos del DOM sin causar re-renderizados.
 
 Aplicado en:

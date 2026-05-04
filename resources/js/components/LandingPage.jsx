@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+//Componente que permite la navegación entre la página de inicio, login y registro
 const LandingPage = () => {
-    // HOOK: useNavigate se usa para programar la navegación hacia el Login o Registro sin recargar la página entera (Single Page Application).
     const navigate = useNavigate();
-    
-    // HOOK: useState se utiliza aquí para controlar un estado booleano (verdadero/falso) que activa la animación de salida antes de navegar.
     const [isExiting, setIsExiting] = useState(false);
 
     const handleNavigation = (path) => {
@@ -43,7 +41,7 @@ const LandingPage = () => {
                     </p>
                 </div>
 
-                {/* Feature pills */}
+                {/* Caract pills */}
                 <div className="d-flex justify-content-center gap-2 flex-wrap my-4 anim-fade-up anim-fade-up-2">
                     <span className="landing-feature-pill">
                         <span className="material-symbols-outlined landing-feature-icon">fingerprint</span>
