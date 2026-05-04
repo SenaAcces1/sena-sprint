@@ -6,8 +6,10 @@ import Navbar from './Navbar';
 import FingerprintSimulation from './FingerprintSimulation';
 
 const Admin = () => {
+    // HOOK: useNavigate se emplea para redirigir al Login si el usuario no tiene una sesión activa o el token expira.
     const navigate = useNavigate();
     const carouselRef = useRef(null);
+    // HOOK: useState se utiliza de forma intensiva para mantener el estado de la aplicación: usuario logueado, la vista renderizada en el panel, listas de datos desde la API y estados de carga.
     const [currentUser, setCurrentUser] = useState(null);
     const [view, setView] = useState('dashboard'); // 'dashboard', 'historial', 'users', 'profile'
     const [userFilter, setUserFilter] = useState('all'); // 'all', 'Instructor', 'Aprendiz'
@@ -43,6 +45,7 @@ const Admin = () => {
     });
     const [fingerprintCaptured, setFingerprintCaptured] = useState(false);
 
+    // HOOK: useEffect se ejecuta al montarse el componente. Es fundamental para simular la carga de datos inicial realizando peticiones a la API para obtener roles, usuarios, ingresos y validar la sesión.
     useEffect(() => {
         const fetchData = async () => {
             try {

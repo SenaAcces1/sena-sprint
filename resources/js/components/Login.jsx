@@ -4,10 +4,13 @@ import axios from 'axios';
 import Footer from './Footer';
 
 const Login = () => {
+    // HOOK: useNavigate maneja las redirecciones post-login hacia los paneles de control.
     const navigate = useNavigate();
+    
+    // HOOK: Múltiples useState para almacenar temporalmente los datos del formulario (email, password) mientras el usuario escribe.
     const [user_email, setEmail] = useState('');
     const [user_password, setPassword] = useState('');
-    const [showPassword, setShowPassword] = useState(false);
+    const [showPassword, setShowPassword] = useState(false); // Estado para alternar visibilidad de contraseña
     const [isGuestMode, setIsGuestMode] = useState(false);
     const [guestData, setGuestData] = useState({
         user_name: '',

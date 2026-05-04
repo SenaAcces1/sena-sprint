@@ -4,7 +4,10 @@ import axios from 'axios';
 import Footer from './Footer';
 // Componente de registro que permite a los usuarios crear una cuenta, con validación de campos y manejo de errores devueltos por la API
 const Register = () => {
+    // HOOK: useNavigate se utiliza para devolver al usuario al Login después de registrarse exitosamente.
     const navigate = useNavigate();
+    
+    // HOOK: useState almacena un objeto completo con todos los datos ingresados en los múltiples inputs del formulario de registro.
     const [formData, setFormData] = useState({
         user_identification: '',
         user_name: '',

@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const LandingPage = () => {
+    // HOOK: useNavigate se usa para programar la navegación hacia el Login o Registro sin recargar la página entera (Single Page Application).
     const navigate = useNavigate();
+    
+    // HOOK: useState se utiliza aquí para controlar un estado booleano (verdadero/falso) que activa la animación de salida antes de navegar.
     const [isExiting, setIsExiting] = useState(false);
 
     const handleNavigation = (path) => {

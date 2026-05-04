@@ -6,7 +6,9 @@ import Navbar from './Navbar';
 import FingerprintSimulation from './FingerprintSimulation';
 
 const Aprendiz = () => {
+    // HOOK: useNavigate permite navegar programáticamente, por ejemplo, devolviendo al usuario al Login si no tiene permisos.
     const navigate = useNavigate();
+    // HOOK: useState se aplica para gestionar múltiples estados simultáneos: datos del aprendiz, la vista actual del menú, el historial de accesos y la carga de datos.
     const [currentUser, setCurrentUser] = useState(null);
     const [view, setView] = useState('dashboard'); // 'dashboard', 'comprobantes', 'profile'
     const [ingresos, setIngresos] = useState([]);
@@ -24,6 +26,7 @@ const Aprendiz = () => {
         user_program: ''
     });
 
+    // HOOK: useEffect se usa como efecto secundario al cargar la página para obtener la información básica del aprendiz logueado y su historial desde la base de datos (simulando la carga de datos de inicio).
     useEffect(() => {
         const fetchData = async () => {
             try {
