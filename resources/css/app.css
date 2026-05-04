@@ -1061,13 +1061,34 @@ body.light-mode .user-info-item {
     to   { transform: translateY(4px); }
 }
 
+/* Decorative ring behind card */
+.landing-ring {
+    position: absolute;
+    width: 550px;
+    height: 550px;
+    border-radius: 50%;
+    border: 1px solid rgba(2, 217, 20, 0.08);
+    z-index: 1;
+    animation: ringPulse 6s ease-in-out infinite alternate;
+    pointer-events: none;
+}
+
+@keyframes ringPulse {
+    0%   { transform: scale(0.9); opacity: 0.3; border-color: rgba(2,217,20,0.06); }
+    50%  { transform: scale(1.05); opacity: 0.6; border-color: rgba(2,217,20,0.15); }
+    100% { transform: scale(0.95); opacity: 0.4; border-color: rgba(2,217,20,0.08); }
+}
+
 .landing-card {
-    max-width: 500px;
+    max-width: 480px;
     width: 100%;
-    border-radius: 25px;
-    background: var(--glass-bg) !important;
-    border: 1px solid rgba(2, 217, 20, 0.3) !important;
-    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5) !important;
+    border-radius: 28px;
+    background: rgba(8, 8, 8, 0.75) !important;
+    border: 1px solid rgba(2, 217, 20, 0.2) !important;
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.6),
+        0 0 80px rgba(2, 217, 20, 0.06),
+        inset 0 1px 0 rgba(255,255,255,0.04) !important;
     transform-origin: center;
     position: relative;
     z-index: 2;
@@ -1078,23 +1099,71 @@ body.light-mode .user-info-item {
     content: '';
     position: absolute;
     inset: -2px;
-    border-radius: 27px;
+    border-radius: 30px;
     background: linear-gradient(
         135deg,
-        rgba(2, 217, 20, 0.5),
+        rgba(2, 217, 20, 0.4),
         transparent 40%,
         transparent 60%,
-        rgba(2, 217, 20, 0.3)
+        rgba(2, 217, 20, 0.2)
     );
     z-index: -1;
     animation: borderGlow 4s ease-in-out infinite alternate;
-    opacity: 0.6;
+    opacity: 0.5;
 }
 
 @keyframes borderGlow {
-    0%   { opacity: 0.3; filter: blur(4px); }
-    50%  { opacity: 0.7; filter: blur(8px); }
-    100% { opacity: 0.4; filter: blur(5px); }
+    0%   { opacity: 0.2; filter: blur(4px); }
+    50%  { opacity: 0.6; filter: blur(8px); }
+    100% { opacity: 0.3; filter: blur(5px); }
+}
+
+/* Status badge */
+.landing-status-badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--primary-color);
+    background: rgba(2, 217, 20, 0.08);
+    border: 1px solid rgba(2, 217, 20, 0.2);
+    padding: 6px 16px;
+    border-radius: 50px;
+}
+
+.landing-status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    display: inline-block;
+    animation: statusBlink 1.5s ease-in-out infinite;
+    box-shadow: 0 0 6px var(--primary-color);
+}
+
+@keyframes statusBlink {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.3; }
+}
+
+/* Logo wrapper */
+.landing-logo-wrapper {
+    width: 110px;
+    height: 110px;
+    margin: 0 auto;
+    background: radial-gradient(circle, rgba(2,217,20,0.08) 0%, transparent 70%);
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(2,217,20,0.1);
+    position: relative;
+}
+
+.landing-logo-wrapper .landing-logo {
+    height: 70px;
+    max-width: 100%;
+    transition: transform 0.3s ease;
 }
 
 /* Logo neon pulse */
@@ -1133,8 +1202,10 @@ body.light-mode .user-info-item {
     to   { background-position: -200% center; }
 }
 
-/* Landing title typewriter-glow */
+/* Landing title */
 .landing-title {
+    font-size: 2.4rem;
+    letter-spacing: 3px;
     animation: titleGlow 2.5s ease-in-out infinite alternate;
 }
 
@@ -1143,8 +1214,11 @@ body.light-mode .user-info-item {
     to   { text-shadow: 0 0 20px rgba(2,217,20,0.15), 0 0 40px rgba(2,217,20,0.08); }
 }
 
-/* Subtitle letter-spacing animation */
+/* Subtitle */
 .landing-subtitle {
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    color: rgba(255,255,255,0.4);
     animation: subtitleReveal 1.2s ease-out 0.5s both;
 }
 
@@ -1153,16 +1227,78 @@ body.light-mode .user-info-item {
     to   { letter-spacing: 4px; opacity: 1; }
 }
 
+/* Feature pills */
+.landing-feature-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: rgba(255,255,255,0.6);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 5px 14px;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.landing-feature-pill:hover {
+    color: var(--primary-color);
+    border-color: rgba(2,217,20,0.25);
+    background: rgba(2,217,20,0.06);
+}
+
+.landing-feature-icon {
+    font-size: 14px !important;
+    color: var(--primary-color);
+}
+
+/* Gradient divider */
+.landing-divider {
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+    border-radius: 2px;
+    opacity: 0.5;
+}
+
+/* Version chip */
+.landing-version-chip {
+    display: inline-block;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--primary-color);
+    background: rgba(2,217,20,0.06);
+    border: 1px solid rgba(2,217,20,0.15);
+    padding: 3px 12px;
+    border-radius: 50px;
+    margin-top: 6px;
+    animation: versionPulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes versionPulse {
+    from { opacity: 0.5; }
+    to   { opacity: 1; }
+}
+
 /* Button styles with neon glow pulse */
 .btn-neon-solid {
     background-color: var(--primary-color) !important;
     border: none !important;
     color: #000 !important;
     font-weight: 800 !important;
+    font-size: 0.85rem;
+    letter-spacing: 1.5px;
     box-shadow: 0 0 20px rgba(2, 217, 20, 0.3);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
+}
+
+.btn-neon-solid .material-symbols-outlined {
+    font-size: 20px;
 }
 
 .btn-neon-solid::after {
@@ -1172,12 +1308,7 @@ body.light-mode .user-info-item {
     left: -60%;
     width: 40%;
     height: 200%;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255,255,255,0.25),
-        transparent
-    );
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
     transform: skewX(-20deg);
     animation: btnShine 3s ease-in-out infinite;
 }
@@ -1189,9 +1320,7 @@ body.light-mode .user-info-item {
 
 .btn-neon-solid:hover {
     transform: translateY(-3px) scale(1.02);
-    box-shadow:
-        0 5px 25px rgba(2, 217, 20, 0.5),
-        0 0 60px rgba(2, 217, 20, 0.2);
+    box-shadow: 0 5px 25px rgba(2, 217, 20, 0.5), 0 0 60px rgba(2, 217, 20, 0.2);
     background-color: #02f518 !important;
 }
 
@@ -1202,33 +1331,24 @@ body.light-mode .user-info-item {
 
 .btn-neon-outline {
     background: transparent !important;
-    border: 2px solid var(--primary-color) !important;
+    border: 2px solid rgba(2, 217, 20, 0.4) !important;
     color: var(--primary-color) !important;
     font-weight: 700 !important;
+    font-size: 0.85rem;
+    letter-spacing: 1.5px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
 }
 
-.btn-neon-outline::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(2,217,20,0.15) 0%, transparent 60%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.btn-neon-outline:hover::before {
-    opacity: 1;
+.btn-neon-outline .material-symbols-outlined {
+    font-size: 20px;
 }
 
 .btn-neon-outline:hover {
     background: rgba(2, 217, 20, 0.08) !important;
     transform: translateY(-3px) scale(1.02);
-    box-shadow:
-        0 0 15px rgba(2, 217, 20, 0.2),
-        inset 0 0 15px rgba(2, 217, 20, 0.05);
+    box-shadow: 0 0 15px rgba(2, 217, 20, 0.2), inset 0 0 15px rgba(2, 217, 20, 0.05);
     border-color: #02f518 !important;
 }
 
@@ -1246,28 +1366,13 @@ body.light-mode .user-info-item {
 }
 
 @keyframes landingIn {
-    from {
-        opacity: 0;
-        transform: scale(1.05);
-        filter: blur(10px);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-        filter: blur(0);
-    }
+    from { opacity: 0; transform: scale(1.05); filter: blur(10px); }
+    to   { opacity: 1; transform: scale(1); filter: blur(0); }
 }
 
 @keyframes landingOut {
-    from {
-        opacity: 1;
-        transform: scale(1);
-    }
-    to {
-        opacity: 0;
-        transform: scale(0.95);
-        filter: blur(10px);
-    }
+    from { opacity: 1; transform: scale(1); }
+    to   { opacity: 0; transform: scale(0.95); filter: blur(10px); }
 }
 
 .landing-logo {
@@ -1284,14 +1389,11 @@ body.light-mode .user-info-item {
     to   { border-color: rgba(2, 217, 20, 0.35); }
 }
 
-/* Version badge pulse */
-.version-badge {
-    display: inline-block;
-    animation: versionPulse 2s ease-in-out infinite alternate;
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .landing-card { border-radius: 22px; }
+    .landing-title { font-size: 1.8rem; letter-spacing: 2px; }
+    .landing-ring { width: 350px; height: 350px; }
+    .landing-logo-wrapper { width: 90px; height: 90px; }
+    .landing-logo-wrapper .landing-logo { height: 55px; }
 }
-
-@keyframes versionPulse {
-    from { opacity: 0.5; }
-    to   { opacity: 1; }
-}
-

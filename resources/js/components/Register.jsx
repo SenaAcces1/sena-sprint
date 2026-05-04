@@ -35,7 +35,7 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         // Validación básica de contraseñas en cliente
         if (formData.user_password !== formData.user_password_confirmation) {
             setErrors({ user_password_confirmation: ['Las contraseñas no coinciden'] });
@@ -82,17 +82,17 @@ const Register = () => {
                             <div className="col-md-12 user-box mb-0">
                                 <input type="text" name="user_identification" required placeholder=" " value={formData.user_identification} onChange={handleChange} className={errors.user_identification ? 'border-danger' : ''} />
                                 <label>Número de Identificación</label>
-                                {errors.user_identification && <div className="text-danger mt-1 small d-flex align-items-center gap-1"><span className="material-symbols-outlined small" style={{fontSize: '14px'}}>error</span> {errors.user_identification[0]}</div>}
+                                {errors.user_identification && <div className="text-danger mt-1 small d-flex align-items-center gap-1"><span className="material-symbols-outlined small" style={{ fontSize: '14px' }}>error</span> {errors.user_identification[0]}</div>}
                             </div>
                             <div className="col-md-6 user-box mb-0">
                                 <input type="text" name="user_name" required placeholder=" " value={formData.user_name} onChange={handleChange} />
                                 <label>Nombres</label>
-                                {errors.user_name && <div className="text-danger mt-1 small d-flex align-items-center gap-1"><span className="material-symbols-outlined small" style={{fontSize: '14px'}}>error</span> {errors.user_name[0]}</div>}
+                                {errors.user_name && <div className="text-danger mt-1 small d-flex align-items-center gap-1"><span className="material-symbols-outlined small" style={{ fontSize: '14px' }}>error</span> {errors.user_name[0]}</div>}
                             </div>
                             <div className="col-md-6 user-box mb-0">
                                 <input type="text" name="user_lastname" required placeholder=" " value={formData.user_lastname} onChange={handleChange} />
                                 <label>Apellidos</label>
-                                {errors.user_lastname && <div className="text-danger mt-1 small d-flex align-items-center gap-1"><span className="material-symbols-outlined small" style={{fontSize: '14px'}}>error</span> {errors.user_lastname[0]}</div>}
+                                {errors.user_lastname && <div className="text-danger mt-1 small d-flex align-items-center gap-1"><span className="material-symbols-outlined small" style={{ fontSize: '14px' }}>error</span> {errors.user_lastname[0]}</div>}
                             </div>
                         </div>
                     </div>
@@ -107,17 +107,17 @@ const Register = () => {
                             <div className="col-md-12 user-box mb-0">
                                 <input type="email" name="user_email" required placeholder=" " value={formData.user_email} onChange={handleChange} />
                                 <label>Correo Electrónico Institucional</label>
-                                {errors.user_email && <div className="text-danger mt-1 small d-flex align-items-center gap-1"><span className="material-symbols-outlined small" style={{fontSize: '14px'}}>error</span> {errors.user_email[0]}</div>}
+                                {errors.user_email && <div className="text-danger mt-1 small d-flex align-items-center gap-1"><span className="material-symbols-outlined small" style={{ fontSize: '14px' }}>error</span> {errors.user_email[0]}</div>}
                             </div>
                             <div className="col-md-5 user-box mb-0">
                                 <input type="number" name="user_coursenumber" required placeholder=" " value={formData.user_coursenumber} onChange={handleChange} />
                                 <label>Número de Ficha</label>
-                                {errors.user_coursenumber && <div className="text-danger mt-1 small d-flex align-items-center gap-1"><span className="material-symbols-outlined small" style={{fontSize: '14px'}}>error</span> {errors.user_coursenumber[0]}</div>}
+                                {errors.user_coursenumber && <div className="text-danger mt-1 small d-flex align-items-center gap-1"><span className="material-symbols-outlined small" style={{ fontSize: '14px' }}>error</span> {errors.user_coursenumber[0]}</div>}
                             </div>
                             <div className="col-md-7 user-box mb-0">
                                 <input type="text" name="user_program" required placeholder=" " value={formData.user_program} onChange={handleChange} />
                                 <label>Programa de Formación</label>
-                                {errors.user_program && <div className="text-danger mt-1 small d-flex align-items-center gap-1"><span className="material-symbols-outlined small" style={{fontSize: '14px'}}>error</span> {errors.user_program[0]}</div>}
+                                {errors.user_program && <div className="text-danger mt-1 small d-flex align-items-center gap-1"><span className="material-symbols-outlined small" style={{ fontSize: '14px' }}>error</span> {errors.user_program[0]}</div>}
                             </div>
                         </div>
                     </div>
@@ -130,18 +130,18 @@ const Register = () => {
                         </div>
                         <div className="row g-4">
                             <div className="col-md-6 user-box mb-0">
-                                <input 
-                                    type={showPassword ? "text" : "password"} 
-                                    name="user_password" 
-                                    required 
-                                    placeholder=" " 
-                                    value={formData.user_password} 
-                                    onChange={handleChange} 
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    name="user_password"
+                                    required
+                                    placeholder=" "
+                                    value={formData.user_password}
+                                    onChange={handleChange}
                                 />
                                 <label>Crear Contraseña</label>
-                                <button 
-                                    type="button" 
-                                    className="password-toggle" 
+                                <button
+                                    type="button"
+                                    className="password-toggle"
                                     onClick={() => setShowPassword(!showPassword)}
                                     style={{ top: '10px' }}
                                 >
@@ -149,26 +149,26 @@ const Register = () => {
                                         {showPassword ? 'visibility_off' : 'visibility'}
                                     </span>
                                 </button>
-                                {errors.user_password && <div className="text-danger mt-1 small d-flex align-items-center gap-1"><span className="material-symbols-outlined small" style={{fontSize: '14px'}}>error</span> {errors.user_password[0]}</div>}
+                                {errors.user_password && <div className="text-danger mt-1 small d-flex align-items-center gap-1"><span className="material-symbols-outlined small" style={{ fontSize: '14px' }}>error</span> {errors.user_password[0]}</div>}
                             </div>
                             <div className="col-md-6 user-box mb-0">
-                                <input 
-                                    type={showPassword ? "text" : "password"} 
-                                    name="user_password_confirmation" 
-                                    required 
-                                    placeholder=" " 
-                                    value={formData.user_password_confirmation} 
-                                    onChange={handleChange} 
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    name="user_password_confirmation"
+                                    required
+                                    placeholder=" "
+                                    value={formData.user_password_confirmation}
+                                    onChange={handleChange}
                                 />
                                 <label>Confirmar Contraseña</label>
-                                {errors.user_password_confirmation && <div className="text-danger mt-1 small d-flex align-items-center gap-1"><span className="material-symbols-outlined small" style={{fontSize: '14px'}}>error</span> {errors.user_password_confirmation[0]}</div>}
+                                {errors.user_password_confirmation && <div className="text-danger mt-1 small d-flex align-items-center gap-1"><span className="material-symbols-outlined small" style={{ fontSize: '14px' }}>error</span> {errors.user_password_confirmation[0]}</div>}
                             </div>
                         </div>
                     </div>
 
                     <div className="d-flex flex-column flex-md-row justify-content-center gap-3 mt-4">
-                        <button 
-                            className="btn btn-glow btn-primary-login w-100 fw-bold py-3 d-flex align-items-center justify-content-center gap-2" 
+                        <button
+                            className="btn btn-glow btn-primary-login w-100 fw-bold py-3 d-flex align-items-center justify-content-center gap-2"
                             type="submit"
                             disabled={loading}
                         >
@@ -184,7 +184,7 @@ const Register = () => {
                                 </>
                             )}
                         </button>
-                        <Link to="/" className="btn btn-glow w-100 text-center text-decoration-none d-flex align-items-center justify-content-center gap-2">
+                        <Link to="/login" className="btn btn-glow w-100 text-center text-decoration-none d-flex align-items-center justify-content-center gap-2">
                             <span className="material-symbols-outlined">login</span>
                             VOLVER AL LOGIN
                         </Link>
