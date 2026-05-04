@@ -40,6 +40,22 @@ const LandingPage = () => {
                     </p>
                 </div>
 
+                {/* Feature pills */}
+                <div className="d-flex justify-content-center gap-2 flex-wrap my-4 anim-fade-up anim-fade-up-2">
+                    <span className="landing-feature-pill">
+                        <span className="material-symbols-outlined landing-feature-icon">fingerprint</span>
+                        Biométrico
+                    </span>
+                    <span className="landing-feature-pill">
+                        <span className="material-symbols-outlined landing-feature-icon">shield</span>
+                        Seguro
+                    </span>
+                    <span className="landing-feature-pill">
+                        <span className="material-symbols-outlined landing-feature-icon">speed</span>
+                        Rápido
+                    </span>
+                </div>
+
                 {/* Divider */}
                 <div className="landing-divider mx-auto mb-4 anim-fade-up anim-fade-up-3"></div>
 
