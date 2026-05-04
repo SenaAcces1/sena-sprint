@@ -11,6 +11,7 @@ import PasswordRecovery from './components/PasswordRecovery';
 import Fingerprint from './components/Fingerprint';
 import Loading from './components/Loading';
 import Admin from './components/Admin';
+import Aprendiz from './components/Aprendiz';
 
 console.log("Iniciando aplicación React...");
 // Componente principal de la aplicación
@@ -57,6 +58,7 @@ const App = () => {
                     <Route path="/fingerprint" element={<Fingerprint />} />
                     <Route path="/loading" element={<Loading />} />
                     <Route path="/admin" element={<Admin />} />
+                    <Route path="/aprendiz" element={<Aprendiz />} />
                     <Route path="*" element={<div style={{color: 'var(--text-color)'}}>404 - Página no encontrada</div>} />
                 </Routes>
             </Suspense>

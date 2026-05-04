@@ -25,8 +25,13 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanc
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
-        return $request->user();
+        return $request->user()->load('role');
     });
+
+    // General User Routes (Accessible by Apprentice and others)
+    Route::get('/my-ingresos', [AdminController::class, 'getMyIngresos']);
+    Route::get('/my-equipment', [EquipmentController::class, 'getMyEquipment']);
+    Route::put('/my-profile', [AdminController::class, 'updateMyProfile']);
 
     // Admin Routes
     Route::middleware('admin')->prefix('admin')->group(function () {

@@ -28,8 +28,11 @@ const Login = () => {
             
             alert(response.data.message);
             // Handle role-based navigation or storing tokens
-            if (response.data.role === 'admin') {
+            const userRole = response.data.role.toLowerCase();
+            if (userRole === 'admin') {
                 navigate('/admin');
+            } else if (userRole === 'aprendiz') {
+                navigate('/aprendiz');
             } else {
                 navigate('/loading');
             }

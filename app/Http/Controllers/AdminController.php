@@ -107,4 +107,49 @@ class AdminController extends Controller
     {
         return response()->json(Role::all());
     }
+
+    public function getMyIngresos(Request $request)
+    {
+        $ingresos = Ingreso::where('fk_id_user', $request->user()->id_usuario)
+            ->with('user')
+            ->orderBy('ingreso_datetime', 'desc')
+            ->get();
+        return response()->json($ingresos);
+    }
+
+    public function updateMyProfile(Request $request)
+    {
+        $user = $request->user();
+        
+        $request->validate([
+            'user_identification' => 'required|string|max:20|unique:usuarios,user_identification,' . $user->id_usuario . ',id_usuario',
+            'user_name' => 'required',
+            'user_lastname' => 'required',
+            'user_email' => 'required|email|unique:usuarios,user_email,' . $user->id_usuario . ',id_usuario',
+            'user_password' => 'nullable|min:6',
+            'user_coursenumber' => 'required',
+            'user_program' => 'required',
+            'image' => 'nullable|image|max:2048',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $profile_photo_path = $request->file('image')->storeOnCloudinary('avatars')->getSecurePath();
+            $user->profile_photo_path = $profile_photo_path;
+        }
+
+        $user->user_identification = $request->user_identification;
+        $user->user_name = $request->user_name;
+        $user->user_lastname = $request->user_lastname;
+        $user->user_email = $request->user_email;
+        $user->user_coursenumber = $request->user_coursenumber;
+        $user->user_program = $request->user_program;
+
+        if ($request->filled('user_password')) {
+            $user->user_password = Hash::make($request->user_password);
+        }
+
+        $user->save();
+
+        return response()->json($user->load('role'));
+    }
 }

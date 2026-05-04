@@ -33,4 +33,13 @@ class EquipmentController extends Controller
         $ingresos = IngresoEquipo::with('user')->orderBy('entry_datetime', 'desc')->get();
         return response()->json($ingresos);
     }
+
+    public function getMyEquipment(Request $request)
+    {
+        $ingresos = IngresoEquipo::where('fk_id_usuario', $request->user()->id_usuario)
+            ->with('user')
+            ->orderBy('entry_datetime', 'desc')
+            ->get();
+        return response()->json($ingresos);
+    }
 }

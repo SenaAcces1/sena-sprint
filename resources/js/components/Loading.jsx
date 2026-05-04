@@ -6,7 +6,14 @@ const Loading = () => {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            navigate('/');
+            const role = localStorage.getItem('user_role')?.toLowerCase();
+            if (role === 'admin') {
+                navigate('/admin');
+            } else if (role === 'aprendiz') {
+                navigate('/aprendiz');
+            } else {
+                navigate('/');
+            }
         }, 3000);
 
         return () => clearTimeout(timer);

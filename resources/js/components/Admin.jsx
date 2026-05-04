@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Footer from './Footer';
 import Navbar from './Navbar';
+import FingerprintSimulation from './FingerprintSimulation';
 
 const Admin = () => {
     const navigate = useNavigate();
@@ -38,6 +39,7 @@ const Admin = () => {
         user_program: '',
         fk_id_rol: ''
     });
+    const [fingerprintCaptured, setFingerprintCaptured] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -144,6 +146,7 @@ const Admin = () => {
     const handleCancelEdit = () => {
         setEditingUser(null);
         setSelectedFile(null);
+        setFingerprintCaptured(false);
         setFormData({
             user_identification: '',
             user_name: '',
@@ -297,12 +300,18 @@ const Admin = () => {
                                                 )}
                                             </div>
                                             <label className="btn btn-outline-success btn-sm cursor-pointer">
-                                                <span className="material-symbols-outlined small me-1">upload</span>
-                                                {selectedFile || formData.profile_photo_path ? 'Cambiar Foto' : 'Subir Foto'}
-                                                <input type="file" className="d-none" onChange={handleFileChange} accept="image/*" />
+                                            <span className="material-symbols-outlined small me-1">upload</span>
+                                            {selectedFile || formData.profile_photo_path ? 'Cambiar Foto' : 'Subir Foto'}
+                                            <input type="file" className="d-none" onChange={handleFileChange} accept="image/*" />
                                             </label>
-                                        </div>
-                                        <div className="col-md-4 mb-3">
+                                            </div>
+
+                                            <div className="col-12 mb-4">
+                                            <FingerprintSimulation onCaptureComplete={(val) => setFingerprintCaptured(val)} />
+                                            </div>
+
+                                            <div className="col-md-4 mb-3">
+
                                             <label className="form-label opacity-75 small">N° Documento</label>
                                             <input type="text" name="user_identification" className="form-control bg-dark text-white border-success" value={formData.user_identification} onChange={handleChange} required />
                                         </div>
