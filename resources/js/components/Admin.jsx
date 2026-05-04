@@ -745,10 +745,6 @@ const Admin = () => {
 
     return (
         <div className="min-vh-100 d-flex flex-column fade-in-up" style={{background: 'transparent'}}>
-            <main className="container-fluid px-4 px-md-5 py-2 flex-grow-1">
-                {renderView()}
-            </main>
-
             <Navbar 
                 currentUser={currentUser} 
                 view={view} 
@@ -757,6 +753,10 @@ const Admin = () => {
                 setUserFilter={setUserFilter} 
                 links={adminLinks}
             />
+
+            <main className="container-fluid px-4 px-md-5 py-2 flex-grow-1">
+                {renderView()}
+            </main>
 
             <Footer />
         </div>
