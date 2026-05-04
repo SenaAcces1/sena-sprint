@@ -690,8 +690,10 @@ h2 { margin-bottom: 2rem; color: var(--primary-color); }
     color: var(--text-color);
     font-size: 0.85rem;
     font-weight: 500;
-    transition: all 0.5s;
-
+    transition: all 0.3s;
+    white-space: nowrap;
+    border-radius: 8px;
+    margin: 2px 0;
 }
 
 .dropdown-item:hover {
@@ -707,7 +709,24 @@ h2 { margin-bottom: 2rem; color: var(--primary-color); }
     border-radius: 15px;
     padding: 8px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-     transition: all 0.5s;
+    transition: all 0.5s;
+    min-width: 200px;
+    overflow: hidden;
+}
+
+.dropdown-menu.show {
+    animation: dropdownFadeIn 0.3s ease-out;
+}
+
+@keyframes dropdownFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .cursor-pointer {
