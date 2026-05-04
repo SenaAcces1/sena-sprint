@@ -26,7 +26,7 @@ const Navbar = ({ currentUser, view, setView, userFilter, setUserFilter, links =
                 <div className="d-flex align-items-center gap-3 me-4">
                     <img src="/Icons/logoSena.png" alt="SENA" style={{ height: '40px' }} />
                     <div className="d-none d-sm-block">
-                        <h5 className="mb-0 fw-bold" style={{ letterSpacing: '1px' }}>SENA <span className="text-success">ACCESS</span></h5>
+                        <h5 className="mb-0 fw-bold " style={{ letterSpacing: '1px' }}>SENA <span className="text-success neon-text">ACCESS</span></h5>
                         <span className="badge bg-success bg-opacity-10 text-success border border-success border-opacity-20" style={{ fontSize: '0.6rem' }}>
                             {currentUser?.role?.rol_name?.toUpperCase() || 'USER'} PANEL
                         </span>
@@ -54,8 +54,8 @@ const Navbar = ({ currentUser, view, setView, userFilter, setUserFilter, links =
                                                     {item.divider ? (
                                                         <hr className="dropdown-divider border-success border-opacity-10" />
                                                     ) : (
-                                                        <button 
-                                                            className="dropdown-item py-2 d-flex align-items-center gap-2" 
+                                                        <button
+                                                            className="dropdown-item py-2 d-flex align-items-center gap-2"
                                                             onClick={() => {
                                                                 if (item.onClick) item.onClick();
                                                                 if (item.view) setView(item.view);
@@ -73,8 +73,8 @@ const Navbar = ({ currentUser, view, setView, userFilter, setUserFilter, links =
                             }
                             return (
                                 <li key={index} className="nav-item">
-                                    <button 
-                                        className={`nav-item-link ${view === link.view ? 'active' : ''}`} 
+                                    <button
+                                        className={`nav-item-link ${view === link.view ? 'active' : ''}`}
                                         onClick={() => setView(link.view)}
                                     >
                                         <span className="material-symbols-outlined small me-1">{link.icon}</span> {link.label}
@@ -86,9 +86,9 @@ const Navbar = ({ currentUser, view, setView, userFilter, setUserFilter, links =
 
                     {/* Perfil y Acciones (Derecha) */}
                     <div className="d-flex align-items-center gap-3 ms-auto pt-2 pt-lg-0 border-top border-lg-0 border-success border-opacity-10">
-                        <div 
-                            className="profile-nav-trigger d-flex align-items-center gap-2 cursor-pointer p-1 px-2 rounded-pill hover-bg" 
-                            onClick={() => setView('profile')} 
+                        <div
+                            className="profile-nav-trigger d-flex align-items-center gap-2 cursor-pointer p-1 px-2 rounded-pill hover-bg"
+                            onClick={() => setView('profile')}
                             style={{ cursor: 'pointer', transition: 'all 0.2s' }}
                         >
                             <div className="text-end d-none d-md-block">
