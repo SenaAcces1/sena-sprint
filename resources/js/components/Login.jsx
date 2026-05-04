@@ -121,7 +121,7 @@ const Login = () => {
             <div className="glass-box p-4 p-md-5 mx-3">
                 <div className="text-center mb-4">
                     <img src="https://www.sena.edu.co/Style%20Library/alayout/images/logoSena.png?rev=40" className="logosena mb-3" alt="Logo SENA" />
-                    <h2 className="fw-bold mb-0">SENA</h2>
+                    <h2 className="landing-title fw-bold mb-0">Sena <span className="neon-text">Access</span></h2>
                     <h5 className="fw-light text-success">Acceso CCyS</h5>
                     <hr className="border-success opacity-25" />
                     <h4 className="mt-3 fw-bold">Iniciar Sesión</h4>
