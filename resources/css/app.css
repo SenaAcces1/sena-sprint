@@ -639,13 +639,13 @@ h2 { margin-bottom: 2rem; color: var(--primary-color); }
 }
 
 /* =========================================
-   NUEVOS COMPONENTES ADMIN / CAROUSEL
+   COMPONENTES ADMIN / CAROUSEL
    ========================================= */
 .nav-item-link {
     background: transparent;
     border: none;
     color: var(--text-color);
-    font-size: 0.50rem;
+    font-size: 0.70rem;
     font-weight: 700;
     letter-spacing: 1px;
     padding: 8px 12px;
@@ -682,6 +682,7 @@ h2 { margin-bottom: 2rem; color: var(--primary-color); }
 .btn-logout-minimal:hover {
     background: rgba(220, 53, 69, 0.1);
     border-color: #dc3545;
+    box-shadow: #dc3545 0 0 10px;
     transform: scale(1.05);
 }
 
@@ -689,7 +690,8 @@ h2 { margin-bottom: 2rem; color: var(--primary-color); }
     color: var(--text-color);
     font-size: 0.85rem;
     font-weight: 500;
-    transition: all 0.2s;
+    transition: all 0.5s;
+
 }
 
 .dropdown-item:hover {
@@ -705,6 +707,7 @@ h2 { margin-bottom: 2rem; color: var(--primary-color); }
     border-radius: 15px;
     padding: 8px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+     transition: all 0.5s;
 }
 
 .cursor-pointer {
