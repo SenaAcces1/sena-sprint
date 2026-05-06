@@ -141,10 +141,10 @@ class AuthController extends Controller
             return response()->json(['message' => 'Si el correo existe, se ha enviado un enlace.'], 200);
         }
 
-        // Generate 8-char random alphanumeric token
+        // Generar código de recuperación de 8 caracteres
         $token = strtoupper(\Illuminate\Support\Str::random(8));
 
-        // Save to token_recovery table
+        // Guardar en la tabla token_recovery
         \Illuminate\Support\Facades\DB::table('token_recovery')->insert([
             'token_code' => $token,
             'token_exp' => Carbon::now('America/Bogota')->addMinutes(15),
@@ -154,7 +154,7 @@ class AuthController extends Controller
             'updated_at' => Carbon::now('America/Bogota'),
         ]);
 
-        // Send Email using Resend
+        // Enviar correo electrónico con el código de recuperación
         \Illuminate\Support\Facades\Mail::to($user->user_email)->send(new \App\Mail\RecoveryCodeMail($token));
 
         return response()->json(['message' => 'Se ha enviado el código a tu correo.'], 200);
