@@ -129,4 +129,71 @@ class AuthController extends Controller
             'user' => $user
         ], 201);
     }
+    public function forgotPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        $user = User::where('user_email', $request->email)->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'Si el correo existe, se ha enviado un enlace.'], 200);
+        }
+
+        // Generate 8-char random alphanumeric token
+        $token = strtoupper(\Illuminate\Support\Str::random(8));
+
+        // Save to token_recovery table
+        \Illuminate\Support\Facades\DB::table('token_recovery')->insert([
+            'token_code' => $token,
+            'token_exp' => Carbon::now('America/Bogota')->addMinutes(15),
+            'token_used' => false,
+            'fk_id_usuario' => $user->id_usuario,
+            'created_at' => Carbon::now('America/Bogota'),
+            'updated_at' => Carbon::now('America/Bogota'),
+        ]);
+
+        // Send Email using Resend
+        \Illuminate\Support\Facades\Mail::to($user->user_email)->send(new \App\Mail\RecoveryCodeMail($token));
+
+        return response()->json(['message' => 'Se ha enviado el código a tu correo.'], 200);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'code' => 'required|string|max:10',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $tokenRecord = \Illuminate\Support\Facades\DB::table('token_recovery')
+            ->where('token_code', $request->code)
+            ->where('token_used', false)
+            ->where('token_exp', '>=', Carbon::now('America/Bogota'))
+            ->first();
+
+        if (!$tokenRecord) {
+            return response()->json(['message' => 'El código es inválido o ha expirado.'], 400);
+        }
+
+        // Update User Password
+        $user = User::where('id_usuario', $tokenRecord->fk_id_usuario)->first();
+        if (!$user) {
+            return response()->json(['message' => 'Usuario no encontrado.'], 404);
+        }
+
+        $user->user_password = Hash::make($request->password);
+        $user->save();
+
+        // Mark token as used
+        \Illuminate\Support\Facades\DB::table('token_recovery')
+            ->where('id_token', $tokenRecord->id_token)
+            ->update([
+                'token_used' => true,
+                'updated_at' => Carbon::now('America/Bogota'),
+            ]);
+
+        return response()->json(['message' => 'Contraseña actualizada correctamente.'], 200);
+    }
 }

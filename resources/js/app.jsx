@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './components/Login';
 import Register from './components/Register';
 import PasswordRecovery from './components/PasswordRecovery';
+import ResetPassword from './components/ResetPassword';
 import Fingerprint from './components/Fingerprint';
 import Loading from './components/Loading';
 import Admin from './components/Admin';
@@ -56,6 +57,7 @@ const App = () => {
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/password-recovery" element={<PasswordRecovery />} />
+                    <Route path="/reset-password" element={<ResetPassword />} />
                     <Route path="/fingerprint" element={<Fingerprint />} />
                     <Route path="/loading" element={<Loading />} />
                     <Route path="/admin" element={<Admin />} />
