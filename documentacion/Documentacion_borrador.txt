@@ -27,12 +27,13 @@ PHP 8.1+:
 - Laravel 10
 (Lógica de negocio, persistencia y autenticación vía Sanctum).
 
-Python (Módulo Externo para Biometría): 
-- OpenCV
-- TensorFlow / Keras
-- NumPy
-- Imagen SK
-(Procesamiento y reconocimiento de huellas dactilares).
+- Caludinary (Repositorio de imágenes)
+- Resend (Manejo de correos de prueba)
+
+Python 3.9+ (Módulo Externo para Biometría): 
+- OpenCV: para buscar "minucias" (puntos singulares de la huella, como bifurcaciones o finales de crestas).
+- NumPy: para cálculos matemáticos y manejo de matrices (imágenes).
+- FastAPI (o Flask, que es más minimalista): para crear endpoints REST que reciben la imagen y retornan la comparación.
 
 ----------------------
 
