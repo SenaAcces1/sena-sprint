@@ -4,6 +4,7 @@ import axios from 'axios';
 import Footer from './Footer';
 import Navbar from './Navbar';
 import FingerprintSimulation from './FingerprintSimulation';
+import Novedades from './Novedades';
 
 const Admin = () => {
     // HOOK: useNavigate se emplea para redirigir al Login si el usuario no tiene una sesión activa o el token expira.
@@ -714,6 +715,10 @@ const Admin = () => {
                         </div>
                     </div>
                 );
+            case 'novedad_form':
+                return <Novedades currentUser={currentUser} initialMode="form" />;
+            case 'novedad_historial':
+                return <Novedades currentUser={currentUser} initialMode="history" />;
             default:
                 return null;
         }
@@ -721,6 +726,16 @@ const Admin = () => {
 
     const adminLinks = [
         { label: 'DASHBOARD', icon: 'dashboard', view: 'dashboard' },
+        { 
+            label: 'NOVEDADES', 
+            icon: 'report_problem', 
+            view: 'novedad_historial',
+            dropdown: true,
+            items: [
+                { label: 'Nueva Novedad', icon: 'add_circle', view: 'novedad_form' },
+                { label: 'Historial Novedades', icon: 'history', view: 'novedad_historial' }
+            ]
+        },
         { label: 'HISTORIAL', icon: 'history', view: 'historial' },
         { 
             label: 'COMPROBANTES', 

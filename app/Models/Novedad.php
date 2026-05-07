@@ -13,6 +13,7 @@ class Novedad extends Model
     protected $primaryKey = 'id_novedad';
 
     protected $fillable = [
+        'novedad_ambiente',
         'novedad_title',
         'novedad_body',
         'novedad_datetime',

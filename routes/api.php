@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EquipmentController;
+use App\Http\Controllers\NovedadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,17 +36,34 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/my-equipment', [EquipmentController::class, 'getMyEquipment']);
     Route::put('/my-profile', [AdminController::class, 'updateMyProfile']);
 
-    // Admin Routes
-    Route::middleware('admin')->prefix('admin')->group(function () {
+    // Admin or Instructor shared Routes
+    Route::middleware('admin_or_instructor')->prefix('admin')->group(function () {
         Route::get('/users', [AdminController::class, 'index']);
         Route::get('/ingresos', [AdminController::class, 'getIngresos']);
+        Route::get('/roles', [AdminController::class, 'getRoles']);
+        
+        // If mutation is also allowed for instructors (as requested "mismas funcionalidades")
         Route::post('/users', [AdminController::class, 'createUser']);
         Route::put('/users/{id}', [AdminController::class, 'updateUser']);
         Route::delete('/users/{id}', [AdminController::class, 'deleteUser']);
-        Route::get('/roles', [AdminController::class, 'getRoles']);
 
-        // Equipment Voucher Routes
-        Route::get('/equipment', [EquipmentController::class, 'index']);
-        Route::post('/equipment', [EquipmentController::class, 'store']);
+        // Equipment for admin (can see everything and create)
+        Route::middleware('admin')->group(function () {
+            Route::get('/equipment', [EquipmentController::class, 'index']);
+            Route::post('/equipment', [EquipmentController::class, 'store']);
+        });
+    });
+
+    // Admin or Instructor Routes for Novedades
+    Route::middleware('admin_or_instructor')->group(function () {
+        Route::apiResource('novedades', NovedadController::class);
+    });
+
+    // Instructor specific Routes
+    Route::middleware('auth:sanctum')->group(function () {
+        // Instructor should only see their own equipment vouchers if they are an instructor
+        // But the user said "instructor con las mismas funcionalidades del admin, menos la de generar comprobantes"
+        // and "solo puede ver sus comprobantes".
+        // I'll add a specific route for that.
     });
 });

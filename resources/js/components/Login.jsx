@@ -34,6 +34,8 @@ const Login = () => {
             const userRole = response.data.role.toLowerCase();
             if (userRole === 'admin') {
                 navigate('/admin');
+            } else if (userRole === 'instructor') {
+                navigate('/instructor');
             } else if (userRole === 'aprendiz') {
                 navigate('/aprendiz');
             } else {

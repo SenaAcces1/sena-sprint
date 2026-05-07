@@ -12,6 +12,7 @@ import ResetPassword from './components/ResetPassword';
 import Fingerprint from './components/Fingerprint';
 import Loading from './components/Loading';
 import Admin from './components/Admin';
+import Instructor from './components/Instructor';
 import Aprendiz from './components/Aprendiz';
 import LandingPage from './components/LandingPage';
 
@@ -61,6 +62,7 @@ const App = () => {
                     <Route path="/fingerprint" element={<Fingerprint />} />
                     <Route path="/loading" element={<Loading />} />
                     <Route path="/admin" element={<Admin />} />
+                    <Route path="/instructor" element={<Instructor />} />
                     <Route path="/aprendiz" element={<Aprendiz />} />
                     <Route path="*" element={<div style={{color: 'var(--text-color)'}}>404 - Página no encontrada</div>} />
                 </Routes>
