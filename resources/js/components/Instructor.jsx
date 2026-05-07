@@ -45,7 +45,7 @@ const Instructor = () => {
 
                 const [usersResponse, ingresosResponse, userMeResponse, myEquipmentResponse, rolesResponse] = await Promise.all([
                     axios.get('/api/admin/users'),
-                    axios.get('/api/admin/ingresos'),
+                    axios.get('/api/my-ingresos'),
                     axios.get('/api/user'),
                     axios.get('/api/my-equipment'),
                     axios.get('/api/admin/roles')
@@ -327,7 +327,7 @@ const Instructor = () => {
                     <div className="fade-in-up">
                         <div className="table-responsive glass-box p-4 mb-5 mx-auto" style={{maxWidth: '1000px'}}>
                             <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-                                <h3 className="mb-0">Historial de Accesos</h3>
+                                <h3 className="mb-0">Mi Historial de Accesos</h3>
                                 <div className="input-group search-input-group" style={{maxWidth: '350px'}}>
                                     <span className="input-group-text"><span className="material-symbols-outlined">search</span></span>
                                     <input type="text" className="form-control" placeholder="Buscar..." value={searchTermIngresos} onChange={(e) => setSearchTermIngresos(e.target.value)} />
@@ -358,16 +358,17 @@ const Instructor = () => {
                         <div className="table-responsive glass-box p-4 mb-5 mx-auto" style={{maxWidth: '1000px'}}>
                             <h3 className="mb-4">Mis Comprobantes de Equipo</h3>
                             <table className="table table-dark admin-table mb-0">
-                                <thead><tr><th>Equipo</th><th>Marca/Modelo</th><th>Serial</th><th>Fecha</th></tr></thead>
+                                <thead><tr><th>Equipo</th><th>Marca/Modelo</th><th>Serial</th><th>Observaciones</th><th>Fecha</th></tr></thead>
                                 <tbody>
                                     {myEquipmentList.length > 0 ? myEquipmentList.map(item => (
                                         <tr key={item.id_ingreso_equipo}>
                                             <td><span className="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25">{item.equipo_type}</span></td>
                                             <td>{item.equipo_brand} {item.equipo_model}</td>
                                             <td><code>{item.equipo_serial}</code></td>
+                                            <td className="small opacity-75">{item.equipo_observations || 'Sin observaciones'}</td>
                                             <td>{new Date(item.entry_datetime).toLocaleString()}</td>
                                         </tr>
-                                    )) : <tr><td colSpan="4" className="text-center py-4 opacity-50">No tienes equipos registrados.</td></tr>}
+                                    )) : <tr><td colSpan="5" className="text-center py-4 opacity-50">No tienes equipos registrados.</td></tr>}
                                 </tbody>
                             </table>
                         </div>

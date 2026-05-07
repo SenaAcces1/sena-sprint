@@ -233,6 +233,7 @@ const Aprendiz = () => {
                                         <th>Equipo</th>
                                         <th>Marca/Modelo</th>
                                         <th>Serial</th>
+                                        <th>Observaciones</th>
                                         <th>Fecha de Ingreso</th>
                                         <th>Estado</th>
                                     </tr>
@@ -243,6 +244,7 @@ const Aprendiz = () => {
                                             <td><span className="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25">{item.equipo_type}</span></td>
                                             <td>{item.equipo_brand} {item.equipo_model}</td>
                                             <td><code>{item.equipo_serial}</code></td>
+                                            <td className="small opacity-75">{item.equipo_observations || 'Sin observaciones'}</td>
                                             <td>{new Date(item.entry_datetime).toLocaleString()}</td>
                                             <td>
                                                 <span className="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-2">Registrado</span>
@@ -250,7 +252,7 @@ const Aprendiz = () => {
                                         </tr>
                                     )) : (
                                         <tr>
-                                            <td colSpan="5" className="text-center py-4 opacity-50">No tienes equipos registrados.</td>
+                                            <td colSpan="6" className="text-center py-4 opacity-50">No tienes equipos registrados.</td>
                                         </tr>
                                     )}
                                 </tbody>
