@@ -13,7 +13,7 @@ const ResetPassword = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         if (password !== password_confirmation) {
             setError('Las contraseñas no coinciden.');
             return;
@@ -30,7 +30,7 @@ const ResetPassword = () => {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 },
-                body: JSON.stringify({ 
+                body: JSON.stringify({
                     code,
                     password,
                     password_confirmation
@@ -63,16 +63,16 @@ const ResetPassword = () => {
                     <img src="https://www.sena.edu.co/Style%20Library/alayout/images/logoSena.png?rev=40" className="logosena mb-3" alt="Logo SENA" />
                     <h5 className="fw-light text-warning">Nueva Contraseña</h5>
                 </div>
-                
+
                 {message && <div className="alert alert-success">{message}</div>}
                 {error && <div className="alert alert-danger">{error}</div>}
 
                 <form onSubmit={handleSubmit}>
                     <div className="user-box">
-                        <input 
-                            type="text" 
-                            name="code" 
-                            required 
+                        <input
+                            type="text"
+                            name="code"
+                            required
                             value={code}
                             onChange={(e) => setCode(e.target.value.toUpperCase())}
                             maxLength={10}
@@ -81,10 +81,10 @@ const ResetPassword = () => {
                     </div>
 
                     <div className="user-box">
-                        <input 
-                            type="password" 
-                            name="password" 
-                            required 
+                        <input
+                            type="password"
+                            name="password"
+                            required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
@@ -92,10 +92,10 @@ const ResetPassword = () => {
                     </div>
 
                     <div className="user-box">
-                        <input 
-                            type="password" 
-                            name="password_confirmation" 
-                            required 
+                        <input
+                            type="password"
+                            name="password_confirmation"
+                            required
                             value={password_confirmation}
                             onChange={(e) => setPasswordConfirmation(e.target.value)}
                         />
