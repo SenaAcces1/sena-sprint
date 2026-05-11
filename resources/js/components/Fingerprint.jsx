@@ -52,8 +52,8 @@ const Fingerprint = () => {
                                     <span className="material-symbols-outlined fingerprint-icon">fingerprint</span>
                                 </div>
                                 <h4 className="fw-bold mb-3 text-center" style={{ color: 'var(--text-color)' }}>Índice Izquierdo</h4>
-                                
-                                <button 
+
+                                <button
                                     className={`btn w-100 py-2 d-flex align-items-center justify-content-center gap-2 ${leftCaptured ? 'btn-success' : 'btn-glow'}`}
                                     onClick={() => handleScan('left')}
                                     disabled={scanningLeft || leftCaptured}
@@ -90,8 +90,8 @@ const Fingerprint = () => {
                                     <span className="material-symbols-outlined fingerprint-icon">fingerprint</span>
                                 </div>
                                 <h4 className="fw-bold mb-3 text-center" style={{ color: 'var(--text-color)' }}>Índice Derecho</h4>
-                                
-                                <button 
+
+                                <button
                                     className={`btn w-100 py-2 d-flex align-items-center justify-content-center gap-2 ${rightCaptured ? 'btn-success' : 'btn-glow'}`}
                                     onClick={() => handleScan('right')}
                                     disabled={scanningRight || rightCaptured}
@@ -123,7 +123,7 @@ const Fingerprint = () => {
                 </div>
 
                 <div className="text-center mt-5 px-4 mx-auto" style={{ maxWidth: '750px' }}>
-                    <button 
+                    <button
                         className={`btn w-100 py-3 fw-bold d-flex align-items-center justify-content-center gap-2 transition-all ${allCaptured ? 'btn-success btn-primary-login shadow-lg' : 'btn-outline-secondary opacity-50'}`}
                         disabled={!allCaptured}
                         onClick={() => navigate('/loading')}
@@ -138,7 +138,7 @@ const Fingerprint = () => {
                             'COMPLETE AMBAS VERIFICACIONES PARA CONTINUAR'
                         )}
                     </button>
-                    
+
                     <div className="mt-4">
                         <Link to="/" className="custom-link small text-uppercase fw-bold opacity-100" style={{ letterSpacing: '1px', color: 'var(--text-color)', textDecoration: 'none' }}>
                             <span className="material-symbols-outlined align-middle me-1" style={{ fontSize: '18px' }}>arrow_back</span>

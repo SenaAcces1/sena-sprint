@@ -6,7 +6,7 @@ import Footer from './Footer';
 const Register = () => {
     // HOOK: useNavigate se utiliza para devolver al usuario al Login después de registrarse exitosamente.
     const navigate = useNavigate();
-    
+
     // HOOK: useState almacena un objeto completo con todos los datos ingresados en los múltiples inputs del formulario de registro.
     const [formData, setFormData] = useState({
         user_identification: '',

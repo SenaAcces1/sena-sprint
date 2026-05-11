@@ -51,16 +51,16 @@ const PasswordRecovery = () => {
                     <img src="https://www.sena.edu.co/Style%20Library/alayout/images/logoSena.png?rev=40" className="logosena mb-3" alt="Logo SENA" />
                     <h5 className="fw-light text-warning">Recuperar Contraseña</h5>
                 </div>
-                
+
                 {message && <div className="alert alert-success">{message}</div>}
                 {error && <div className="alert alert-danger">{error}</div>}
 
                 <form onSubmit={handleSubmit}>
                     <div className="user-box">
-                        <input 
-                            type="email" 
-                            name="email" 
-                            required 
+                        <input
+                            type="email"
+                            name="email"
+                            required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />

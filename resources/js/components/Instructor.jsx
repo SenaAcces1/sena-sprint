@@ -190,8 +190,8 @@ const Instructor = () => {
                 return (
                     <div className="fade-in-up">
                         <div className="text-center mb-5">
-                            <h2 className="mb-2" style={{fontSize: '2.5rem', fontWeight: '800', letterSpacing: '-1px'}}>
-                                Panel de <span style={{color: 'var(--primary-color)'}}>Instructor</span>
+                            <h2 className="mb-2" style={{ fontSize: '2.5rem', fontWeight: '800', letterSpacing: '-1px' }}>
+                                Panel de <span style={{ color: 'var(--primary-color)' }}>Instructor</span>
                             </h2>
                             <p className="opacity-75">Visualización y gestión de usuarios y registros de acceso</p>
                         </div>
@@ -211,7 +211,7 @@ const Instructor = () => {
                 return (
                     <div className="fade-in-up">
                         {(editingUser || isCreating) && (
-                            <div className="glass-box p-4 mb-5 mx-auto fade-in-up" style={{maxWidth: '850px'}}>
+                            <div className="glass-box p-4 mb-5 mx-auto fade-in-up" style={{ maxWidth: '850px' }}>
                                 <div className="section-header">
                                     <h3 className="mb-0">{isCreating ? 'Nuevo Usuario' : 'Editar Usuario'}</h3>
                                 </div>
@@ -220,9 +220,9 @@ const Instructor = () => {
                                         <div className="col-12 mb-3 text-center">
                                             <div className="user-avatar-lg mx-auto mb-2 shadow overflow-hidden border border-success">
                                                 {selectedFile ? (
-                                                    <img src={URL.createObjectURL(selectedFile)} alt="Preview" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+                                                    <img src={URL.createObjectURL(selectedFile)} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                                 ) : (
-                                                    <span className="material-symbols-outlined" style={{fontSize: '3rem'}}>add_a_photo</span>
+                                                    <span className="material-symbols-outlined" style={{ fontSize: '3rem' }}>add_a_photo</span>
                                                 )}
                                             </div>
                                             <label className="btn btn-outline-success btn-sm cursor-pointer">
@@ -274,14 +274,14 @@ const Instructor = () => {
                             </div>
                         )}
 
-                        <div className="mx-auto" style={{maxWidth: '1200px'}}>
+                        <div className="mx-auto" style={{ maxWidth: '1200px' }}>
                             <div className="d-flex justify-content-between align-items-center mb-5 px-4 flex-wrap gap-3">
                                 <div>
                                     <h3 className="mb-0">Gestión de Usuarios</h3>
                                     <p className="small opacity-50 mb-0">Total: {filteredUsers.length} registros</p>
                                 </div>
                                 <div className="d-flex gap-2">
-                                    <div className="input-group search-input-group" style={{maxWidth: '350px'}}>
+                                    <div className="input-group search-input-group" style={{ maxWidth: '350px' }}>
                                         <span className="input-group-text"><span className="material-symbols-outlined">search</span></span>
                                         <input type="text" className="form-control" placeholder="Buscar..." value={searchTermUsers} onChange={(e) => setSearchTermUsers(e.target.value)} />
                                     </div>
@@ -305,10 +305,10 @@ const Instructor = () => {
                                             </div>
                                             <div className="user-card-header text-center pt-4 mb-3">
                                                 <div className="user-avatar-lg mx-auto mb-3 shadow overflow-hidden">
-                                                    {user.profile_photo_path ? <img src={user.profile_photo_path} alt="Avatar" style={{width: '100%', height: '100%', objectFit: 'cover'}} /> : <>{user.user_name[0]}{user.user_lastname[0]}</>}
+                                                    {user.profile_photo_path ? <img src={user.profile_photo_path} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <>{user.user_name[0]}{user.user_lastname[0]}</>}
                                                 </div>
                                                 <h5 className="mb-1 text-truncate px-2">{user.user_name} {user.user_lastname}</h5>
-                                                <span className="badge bg-success bg-opacity-10 text-white border border-success border-opacity-25" style={{fontSize: '0.65rem'}}>{user.role?.rol_name}</span>
+                                                <span className="badge bg-success bg-opacity-10 text-white border border-success border-opacity-25" style={{ fontSize: '0.65rem' }}>{user.role?.rol_name}</span>
                                             </div>
                                             <div className="user-card-body px-3 pb-4">
                                                 <div className="user-info-item mb-2"><span className="material-symbols-outlined">id_card</span><span className="text-truncate">{user.user_identification || 'S/N'}</span></div>
@@ -325,10 +325,10 @@ const Instructor = () => {
             case 'historial':
                 return (
                     <div className="fade-in-up">
-                        <div className="table-responsive glass-box p-4 mb-5 mx-auto" style={{maxWidth: '1000px'}}>
+                        <div className="table-responsive glass-box p-4 mb-5 mx-auto" style={{ maxWidth: '1000px' }}>
                             <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
                                 <h3 className="mb-0">Mi Historial de Accesos</h3>
-                                <div className="input-group search-input-group" style={{maxWidth: '350px'}}>
+                                <div className="input-group search-input-group" style={{ maxWidth: '350px' }}>
                                     <span className="input-group-text"><span className="material-symbols-outlined">search</span></span>
                                     <input type="text" className="form-control" placeholder="Buscar..." value={searchTermIngresos} onChange={(e) => setSearchTermIngresos(e.target.value)} />
                                 </div>
@@ -355,7 +355,7 @@ const Instructor = () => {
             case 'mis_equipos':
                 return (
                     <div className="fade-in-up">
-                        <div className="table-responsive glass-box p-4 mb-5 mx-auto" style={{maxWidth: '1000px'}}>
+                        <div className="table-responsive glass-box p-4 mb-5 mx-auto" style={{ maxWidth: '1000px' }}>
                             <h3 className="mb-4">Mis Comprobantes de Equipo</h3>
                             <table className="table table-dark admin-table mb-0">
                                 <thead><tr><th>Equipo</th><th>Marca/Modelo</th><th>Serial</th><th>Observaciones</th><th>Fecha</th></tr></thead>
@@ -380,9 +380,9 @@ const Instructor = () => {
 
     const instructorLinks = [
         { label: 'DASHBOARD', icon: 'dashboard', view: 'dashboard' },
-        { 
-            label: 'NOVEDADES', 
-            icon: 'report_problem', 
+        {
+            label: 'NOVEDADES',
+            icon: 'report_problem',
             view: 'novedad_historial',
             dropdown: true,
             items: [
@@ -390,9 +390,9 @@ const Instructor = () => {
                 { label: 'Historial Novedades', icon: 'history', view: 'novedad_historial' }
             ]
         },
-        { 
-            label: 'USUARIOS', 
-            icon: 'group', 
+        {
+            label: 'USUARIOS',
+            icon: 'group',
             view: 'users',
             dropdown: true,
             items: [

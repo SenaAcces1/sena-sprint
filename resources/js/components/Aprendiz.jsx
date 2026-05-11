@@ -41,7 +41,7 @@ const Aprendiz = () => {
                     axios.get('/api/my-ingresos'),
                     axios.get('/api/my-equipment')
                 ]);
-                
+
                 setCurrentUser(userMeResponse.data);
                 setIngresos(ingresosResponse.data);
                 setEquipmentList(equipmentResponse.data);
@@ -100,7 +100,7 @@ const Aprendiz = () => {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            
+
             setCurrentUser(response.data);
             alert('Perfil actualizado con éxito');
             setEditingProfile(false);
@@ -116,20 +116,20 @@ const Aprendiz = () => {
         if (editingProfile) {
             return (
                 <div className="fade-in-up">
-                    <div className="glass-box p-4 mb-5 mx-auto fade-in-up" style={{maxWidth: '850px'}}>
+                    <div className="glass-box p-4 mb-5 mx-auto fade-in-up" style={{ maxWidth: '850px' }}>
                         <div className="section-header">
                             <h3 className="mb-0">Editar Mi Perfil</h3>
                         </div>
                         <form onSubmit={handleUpdateProfile}>
                             <div className="row">
                                 <div className="col-12 mb-3 text-center">
-                                    <div className="user-avatar-lg mx-auto mb-2 shadow overflow-hidden border border-success" style={{width: '120px', height: '120px'}}>
+                                    <div className="user-avatar-lg mx-auto mb-2 shadow overflow-hidden border border-success" style={{ width: '120px', height: '120px' }}>
                                         {selectedFile ? (
-                                            <img src={URL.createObjectURL(selectedFile)} alt="Preview" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+                                            <img src={URL.createObjectURL(selectedFile)} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                         ) : formData.profile_photo_path ? (
-                                            <img src={formData.profile_photo_path} alt="Avatar" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+                                            <img src={formData.profile_photo_path} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                         ) : (
-                                            <span className="material-symbols-outlined" style={{fontSize: '3rem'}}>add_a_photo</span>
+                                            <span className="material-symbols-outlined" style={{ fontSize: '3rem' }}>add_a_photo</span>
                                         )}
                                     </div>
                                     <label className="btn btn-outline-success btn-sm cursor-pointer">
@@ -140,7 +140,7 @@ const Aprendiz = () => {
                                 </div>
 
                                 <div className="col-12 mb-4">
-                                    <FingerprintSimulation onCaptureComplete={() => {}} />
+                                    <FingerprintSimulation onCaptureComplete={() => { }} />
                                 </div>
 
                                 <div className="col-md-4 mb-3">
@@ -191,8 +191,8 @@ const Aprendiz = () => {
                 return (
                     <div className="fade-in-up">
                         <div className="text-center mb-5">
-                            <h2 className="mb-2" style={{fontSize: '2.5rem', fontWeight: '800', letterSpacing: '-1px'}}>
-                                Dashboard <span style={{color: 'var(--primary-color)'}}>Aprendiz</span>
+                            <h2 className="mb-2" style={{ fontSize: '2.5rem', fontWeight: '800', letterSpacing: '-1px' }}>
+                                Dashboard <span style={{ color: 'var(--primary-color)' }}>Aprendiz</span>
                             </h2>
                             <p className="opacity-75">Bienvenido, {currentUser?.user_name}. Aquí tienes un resumen de tu actividad.</p>
                         </div>
@@ -200,7 +200,7 @@ const Aprendiz = () => {
                         <div className="stats-container mx-auto">
                             <div className="stat-card">
                                 <div className="stat-icon">
-                                    <span className="material-symbols-outlined" style={{fontSize: '32px'}}>history</span>
+                                    <span className="material-symbols-outlined" style={{ fontSize: '32px' }}>history</span>
                                 </div>
                                 <div className="stat-info">
                                     <h4>Mis Ingresos</h4>
@@ -209,7 +209,7 @@ const Aprendiz = () => {
                             </div>
                             <div className="stat-card">
                                 <div className="stat-icon">
-                                    <span className="material-symbols-outlined" style={{fontSize: '32px'}}>devices</span>
+                                    <span className="material-symbols-outlined" style={{ fontSize: '32px' }}>devices</span>
                                 </div>
                                 <div className="stat-info">
                                     <h4>Equipos Registrados</h4>
@@ -222,7 +222,7 @@ const Aprendiz = () => {
             case 'comprobantes':
                 return (
                     <div className="fade-in-up">
-                        <div className="table-responsive glass-box p-4 mb-5 mx-auto" style={{maxWidth: '1200px'}}>
+                        <div className="table-responsive glass-box p-4 mb-5 mx-auto" style={{ maxWidth: '1200px' }}>
                             <div className="section-header">
                                 <h3 className="mb-0">Mis Comprobantes de Equipo</h3>
                                 <p className="opacity-50 small">Registros de tus dispositivos ingresados al centro</p>
@@ -309,11 +309,11 @@ const Aprendiz = () => {
                 );
             case 'profile':
                 return (
-                    <div className="fade-in-up container glass-box p-5 mx-auto" style={{maxWidth: '600px'}}>
+                    <div className="fade-in-up container glass-box p-5 mx-auto" style={{ maxWidth: '600px' }}>
                         <div className="text-center mb-4">
-                            <div className="rounded-circle bg-success mx-auto d-flex align-items-center justify-content-center mb-3 shadow overflow-hidden" style={{width: '100px', height: '100px', fontSize: '2.5rem', fontWeight: 'bold', color: '#000'}}>
+                            <div className="rounded-circle bg-success mx-auto d-flex align-items-center justify-content-center mb-3 shadow overflow-hidden" style={{ width: '100px', height: '100px', fontSize: '2.5rem', fontWeight: 'bold', color: '#000' }}>
                                 {currentUser?.profile_photo_path ? (
-                                    <img src={currentUser.profile_photo_path} alt="Profile" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+                                    <img src={currentUser.profile_photo_path} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                 ) : (
                                     <>{currentUser?.user_name?.[0]}{currentUser?.user_lastname?.[0]}</>
                                 )}
@@ -323,7 +323,7 @@ const Aprendiz = () => {
                                 {currentUser?.role?.rol_name || 'Aprendiz'}
                             </span>
                         </div>
-                        
+
                         <div className="row text-start mt-4 g-4">
                             <div className="col-12">
                                 <label className="form-label opacity-50 small mb-1">Identificación</label>
@@ -371,21 +371,21 @@ const Aprendiz = () => {
     ];
 
     return (
-        <div className="min-vh-100 d-flex flex-column fade-in-up" style={{background: 'transparent'}}>
-            <Navbar 
-                currentUser={currentUser} 
-                view={view} 
+        <div className="min-vh-100 d-flex flex-column fade-in-up" style={{ background: 'transparent' }}>
+            <Navbar
+                currentUser={currentUser}
+                view={view}
                 setView={(newView) => {
                     setView(newView);
                     setEditingProfile(false);
-                }} 
+                }}
                 links={aprendizLinks}
             />
 
             <main className="container-fluid px-4 px-md-5 py-2 flex-grow-1">
                 {renderView()}
             </main>
-            
+
             <Footer />
         </div>
     );

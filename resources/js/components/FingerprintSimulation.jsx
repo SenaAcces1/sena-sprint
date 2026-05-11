@@ -43,7 +43,7 @@ const FingerprintSimulation = ({ onCaptureComplete }) => {
                             <span className="material-symbols-outlined fingerprint-icon" style={{ fontSize: '50px' }}>fingerprint</span>
                         </div>
                         <h6 className="fw-bold mb-3 small text-center">Índice Izquierdo</h6>
-                        <button 
+                        <button
                             type="button"
                             className={`btn btn-sm w-100 py-2 d-flex align-items-center justify-content-center gap-2 ${leftCaptured ? 'btn-success' : 'btn-glow'}`}
                             onClick={() => handleScan('left')}
@@ -70,7 +70,7 @@ const FingerprintSimulation = ({ onCaptureComplete }) => {
                             <span className="material-symbols-outlined fingerprint-icon" style={{ fontSize: '50px' }}>fingerprint</span>
                         </div>
                         <h6 className="fw-bold mb-3 small text-center">Índice Derecho</h6>
-                        <button 
+                        <button
                             type="button"
                             className={`btn btn-sm w-100 py-2 d-flex align-items-center justify-content-center gap-2 ${rightCaptured ? 'btn-success' : 'btn-glow'}`}
                             onClick={() => handleScan('right')}
