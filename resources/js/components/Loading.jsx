@@ -2,21 +2,21 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 // Componente de carga que muestra una animación y redirige al usuario después de unos segundos
 const Loading = () => {
-    const navigate = useNavigate();
+    const navigate = useNavigate(); // HOOK: useNavigate maneja las redirecciones post-login hacia los paneles de control.
 
-    useEffect(() => {
+    useEffect(() => { // HOOK: useEffect ejecuta codigo cuando el componente se monta, redireccion programatica.
         const timer = setTimeout(() => {
             const role = localStorage.getItem('user_role')?.toLowerCase();
             if (role === 'admin') {
-                navigate('/admin');
+                navigate('/admin'); // Redirige al panel de administración.
             } else if (role === 'aprendiz') {
-                navigate('/aprendiz');
+                navigate('/aprendiz'); // Redirige al panel de aprendices.
             } else {
-                navigate('/');
+                navigate('/'); // Redirige al inicio.
             }
-        }, 3000);
+        }, 3000); // Tiempo de espera para la redirección.
 
-        return () => clearTimeout(timer);
+        return () => clearTimeout(timer); // HOOK: useEffect ejecuta codigo cuando el componente se monta.
     }, [navigate]);
 
     return (

@@ -6,17 +6,18 @@ import Footer from './Footer';
 const Login = () => {
     // HOOK: useNavigate maneja las redirecciones post-login hacia los paneles de control.
     const navigate = useNavigate();
-    
+
     // HOOK: Múltiples useState para almacenar temporalmente los datos del formulario (email, password) mientras el usuario escribe.
-    const [user_email, setEmail] = useState('');
-    const [user_password, setPassword] = useState('');
+    const [user_email, setEmail] = useState(''); // Estado para almacenar email del usuario
+    const [user_password, setPassword] = useState(''); // Estado para almacenar contraseña del usuario
     const [showPassword, setShowPassword] = useState(false); // Estado para alternar visibilidad de contraseña
-    const [isGuestMode, setIsGuestMode] = useState(false);
-    const [guestData, setGuestData] = useState({
+    const [isGuestMode, setIsGuestMode] = useState(false); // Estado para alternar modo invitado
+    const [guestData, setGuestData] = useState({ // Estado para almacenar datos de invitado
         user_name: '',
         user_identification: ''
     });
 
+    // Funcion para manejar el envio del formulario de login
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -24,11 +25,11 @@ const Login = () => {
                 user_email,
                 user_password
             });
-            
+
             // guardar token y rol en localStorage para uso futuro
             localStorage.setItem('access_token', response.data.access_token);
             localStorage.setItem('user_role', response.data.role);
-            
+
             alert(response.data.message);
             // Handle role-based navigation or storing tokens
             const userRole = response.data.role.toLowerCase();
@@ -50,10 +51,12 @@ const Login = () => {
         }
     };
 
+    // Funcion para alternar visibilidad de contraseña
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
 
+    // Funcion para manejar el envio del formulario de invitado
     const handleGuestSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -81,23 +84,23 @@ const Login = () => {
 
                     <form onSubmit={handleGuestSubmit}>
                         <div className="user-box">
-                            <input 
-                                type="text" 
-                                required 
+                            <input
+                                type="text"
+                                required
                                 placeholder=" "
                                 value={guestData.user_identification}
-                                onChange={(e) => setGuestData({...guestData, user_identification: e.target.value})}
+                                onChange={(e) => setGuestData({ ...guestData, user_identification: e.target.value })}
                             />
                             <label>Número de Documento</label>
                         </div>
                         <div className="user-box">
-                            <input 
-                                type="text" 
-                                required 
+                            <input
+                                type="text"
+                                required
                                 placeholder=" "
                                 value={guestData.user_name}
                                 // Funcion para generar los datos de invitado (guest)
-                                onChange={(e) => setGuestData({...guestData, user_name: e.target.value})}
+                                onChange={(e) => setGuestData({ ...guestData, user_name: e.target.value })}
                             />
                             <label>Nombre Completo</label>
                         </div>
@@ -106,9 +109,9 @@ const Login = () => {
                             <button className="btn btn-glow btn-primary-login w-100 fw-bold py-3" type="submit">
                                 REGISTRAR INGRESO
                             </button>
-                            <button 
-                                type="button" 
-                                className="btn btn-glow w-100" 
+                            <button
+                                type="button"
+                                className="btn btn-glow w-100"
                                 onClick={() => setIsGuestMode(false)}
                             >
                                 VOLVER AL LOGIN
@@ -134,10 +137,10 @@ const Login = () => {
 
                 <form onSubmit={handleSubmit}>
                     <div className="user-box">
-                        <input 
-                            type="email" 
-                            name="user_email" 
-                            required 
+                        <input
+                            type="email"
+                            name="user_email"
+                            required
                             placeholder=" "
                             value={user_email}
                             onChange={(e) => setEmail(e.target.value)}
@@ -145,18 +148,18 @@ const Login = () => {
                         <label>Correo electrónico</label>
                     </div>
                     <div className="user-box">
-                        <input 
-                            type={showPassword ? "text" : "password"} 
-                            name="user_password" 
-                            required 
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            name="user_password"
+                            required
                             placeholder=" "
                             value={user_password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
                         <label>Contraseña</label>
-                        <button 
-                            type="button" 
-                            className="password-toggle" 
+                        <button
+                            type="button"
+                            className="password-toggle"
                             onClick={togglePasswordVisibility}
                             aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                         >
@@ -189,15 +192,15 @@ const Login = () => {
                             </svg>
                             INGRESAR
                         </button>
-                        
+
                         <div className="position-relative text-center my-2">
                             <hr className="border-secondary opacity-25" />
                             <span className="position-absolute top-50 start-50 translate-middle theme-bg theme-text px-3 small opacity-50">O</span>
                         </div>
 
-                        <button 
-                            type="button" 
-                            className="btn btn-glow w-100 fw-bold" 
+                        <button
+                            type="button"
+                            className="btn btn-glow w-100 fw-bold"
                             onClick={() => setIsGuestMode(true)}
                         >
                             INVITADO
@@ -208,9 +211,9 @@ const Login = () => {
                 <div className="mt-4 text-center">
                     <p className="mb-2 theme-text opacity-75 small">¿No estás registrado? <Link to="/register" className="custom-link fw-bold text-success">¡Regístrate aquí!</Link></p>
                     <p className="mb-4 theme-text opacity-75 small">¿Olvidaste tu contraseña? <Link to="/password-recovery" className="custom-link fw-bold text-success">Recuperar</Link></p>
-                    
+
                     <div className="d-grid gap-2">
-                        <Link to="/fingerprint" className="btn btn-glow w-100 d-flex align-items-center justify-content-center gap-2" style={{textDecoration: 'none', color: 'inherit'}}>
+                        <Link to="/fingerprint" className="btn btn-glow w-100 d-flex align-items-center justify-content-center gap-2" style={{ textDecoration: 'none', color: 'inherit' }}>
                             <span className="material-symbols-outlined" style={{ color: '#02d914', fontSize: '24px' }}>fingerprint</span>
                             ACCESO CON HUELLA
                         </Link>

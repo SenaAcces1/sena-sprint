@@ -76,7 +76,7 @@ const Novedades = ({ currentUser, initialMode = 'history' }) => {
 
     const renderForm = () => (
         <div className="fade-in-up">
-            <div className="glass-box p-4 mb-5 mx-auto" style={{maxWidth: '850px'}}>
+            <div className="glass-box p-4 mb-5 mx-auto" style={{ maxWidth: '850px' }}>
                 <div className="section-header">
                     <h3 className="mb-0">Nueva Novedad de Ambiente</h3>
                     <p className="opacity-50 small">Reportar incidentes o novedades en los ambientes de formación</p>
@@ -85,37 +85,37 @@ const Novedades = ({ currentUser, initialMode = 'history' }) => {
                     <div className="row">
                         <div className="col-md-6 mb-3">
                             <label className="form-label opacity-75 small">Nombre del Ambiente</label>
-                            <input 
-                                type="text" 
-                                name="novedad_ambiente" 
-                                className="form-control" 
-                                value={formData.novedad_ambiente} 
-                                onChange={handleChange} 
-                                required 
-                                placeholder="Ej: Ambiente 302, Auditorio..." 
+                            <input
+                                type="text"
+                                name="novedad_ambiente"
+                                className="form-control"
+                                value={formData.novedad_ambiente}
+                                onChange={handleChange}
+                                required
+                                placeholder="Ej: Ambiente 302, Auditorio..."
                             />
                         </div>
                         <div className="col-md-6 mb-3">
                             <label className="form-label opacity-75 small">Título de la Novedad</label>
-                            <input 
-                                type="text" 
-                                name="novedad_title" 
-                                className="form-control" 
-                                value={formData.novedad_title} 
-                                onChange={handleChange} 
-                                required 
-                                placeholder="Ej: Fallo en proyector, Silla rota..." 
+                            <input
+                                type="text"
+                                name="novedad_title"
+                                className="form-control"
+                                value={formData.novedad_title}
+                                onChange={handleChange}
+                                required
+                                placeholder="Ej: Fallo en proyector, Silla rota..."
                             />
                         </div>
                         <div className="col-12 mb-3">
                             <label className="form-label opacity-75 small">Descripción Detallada</label>
-                            <textarea 
-                                name="novedad_body" 
-                                className="form-control" 
-                                rows="5" 
-                                value={formData.novedad_body} 
-                                onChange={handleChange} 
-                                required 
+                            <textarea
+                                name="novedad_body"
+                                className="form-control"
+                                rows="5"
+                                value={formData.novedad_body}
+                                onChange={handleChange}
+                                required
                                 placeholder="Explique detalladamente lo ocurrido o el estado del ambiente..."
                             ></textarea>
                         </div>
@@ -137,14 +137,14 @@ const Novedades = ({ currentUser, initialMode = 'history' }) => {
                     <h3 className="mb-0">Historial de Novedades</h3>
                     <p className="opacity-50 small">Total: {novedades.length} registros</p>
                 </div>
-                <div className="input-group search-input-group" style={{maxWidth: '350px'}}>
+                <div className="input-group search-input-group" style={{ maxWidth: '350px' }}>
                     <span className="input-group-text">
                         <span className="material-symbols-outlined">search</span>
                     </span>
-                    <input 
-                        type="text" 
-                        className="form-control" 
-                        placeholder="Buscar por título, cuerpo o ambiente..." 
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Buscar por título, cuerpo o ambiente..."
                         value={searchTerm}
                         onChange={handleSearch}
                     />
@@ -163,27 +163,27 @@ const Novedades = ({ currentUser, initialMode = 'history' }) => {
                         <div key={novedad.id_novedad} className="col-md-6 col-lg-4">
                             <div className="glass-box p-4 h-100 d-flex flex-column hover-glow transition-all">
                                 <div className="d-flex justify-content-between align-items-start mb-3">
-                                    <span className="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 py-2" style={{fontSize: '0.7rem'}}>
+                                    <span className="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 py-2" style={{ fontSize: '0.7rem' }}>
                                         {novedad.novedad_ambiente}
                                     </span>
                                     {(currentUser?.role?.rol_name === 'admin' || currentUser?.id_usuario === novedad.fk_id_usuario) && (
                                         <button className="btn btn-sm btn-outline-danger p-1 d-flex align-items-center justify-content-center" onClick={() => handleDelete(novedad.id_novedad)}>
-                                            <span className="material-symbols-outlined" style={{fontSize: '18px'}}>delete</span>
+                                            <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>delete</span>
                                         </button>
                                     )}
                                 </div>
                                 <h4 className="mb-2 text-white">{novedad.novedad_title}</h4>
-                                <p className="opacity-75 mb-4 flex-grow-1" style={{fontSize: '0.9rem', lineHeight: '1.6'}}>
+                                <p className="opacity-75 mb-4 flex-grow-1" style={{ fontSize: '0.9rem', lineHeight: '1.6' }}>
                                     {novedad.novedad_body}
                                 </p>
                                 <div className="mt-auto pt-3 border-top border-success border-opacity-10 d-flex justify-content-between align-items-center">
                                     <div className="d-flex align-items-center gap-2">
-                                        <div className="rounded-circle bg-success bg-opacity-20 d-flex align-items-center justify-content-center text-success" style={{width: '32px', height: '32px', fontSize: '0.8rem'}}>
+                                        <div className="rounded-circle bg-success bg-opacity-20 d-flex align-items-center justify-content-center text-success" style={{ width: '32px', height: '32px', fontSize: '0.8rem' }}>
                                             {novedad.user?.user_name?.[0]}{novedad.user?.user_lastname?.[0]}
                                         </div>
                                         <div className="small">
                                             <p className="mb-0 fw-bold">{novedad.user?.user_name}</p>
-                                            <p className="mb-0 opacity-50" style={{fontSize: '0.65rem'}}>{new Date(novedad.novedad_datetime).toLocaleString()}</p>
+                                            <p className="mb-0 opacity-50" style={{ fontSize: '0.65rem' }}>{new Date(novedad.novedad_datetime).toLocaleString()}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -192,7 +192,7 @@ const Novedades = ({ currentUser, initialMode = 'history' }) => {
                     ))
                 ) : (
                     <div className="text-center w-100 py-5 opacity-50">
-                        <span className="material-symbols-outlined" style={{fontSize: '48px'}}>event_busy</span>
+                        <span className="material-symbols-outlined" style={{ fontSize: '48px' }}>event_busy</span>
                         <p className="mt-2">No se encontraron novedades</p>
                     </div>
                 )}

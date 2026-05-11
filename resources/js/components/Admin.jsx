@@ -32,7 +32,7 @@ const Admin = () => {
         equipo_color: '',
         equipo_serial: '',
         equipo_observations: ''
-    });
+    }); // HOOK: useState se utiliza de forma intensiva para mantener el estado de la aplicación: usuario logueado, la vista renderizada en el panel, listas de datos desde la API y estados de carga.
     const [equipmentList, setEquipmentList] = useState([]);
     const [formData, setFormData] = useState({
         user_identification: '',
@@ -82,7 +82,7 @@ const Admin = () => {
         fetchData();
     }, []);
 
-    // Filter users based on search term AND role filter
+    // Filtro de usuarios por nombre, apellido, email, numero de ficha y rol
     const filteredUsers = users.filter(user => {
         const search = searchTermUsers.toLowerCase();
         const matchesSearch = (
@@ -98,6 +98,7 @@ const Admin = () => {
         return matchesSearch && user.role?.rol_name === userFilter;
     });
 
+    // Filtro de ingresos por nombre, apellido, email, lugar y fecha
     const filteredIngresos = ingresos.filter(ingreso => {
         const search = searchTermIngresos.toLowerCase();
         const userName = `${ingreso.user?.user_name} ${ingreso.user?.user_lastname}`.toLowerCase();
@@ -107,9 +108,10 @@ const Admin = () => {
             ingreso.ingreso_place.toLowerCase().includes(search) ||
             new Date(ingreso.ingreso_datetime).toLocaleString().toLowerCase().includes(search)
         );
-        });
+    });
 
-        const filteredEquipment = equipmentList.filter(item => {
+    // Filtro de equipos por nombre, apellido, email, tipo de equipo, marca, modelo, color y serial
+    const filteredEquipment = equipmentList.filter(item => {
         const search = searchTermEquipment.toLowerCase();
         const userName = `${item.user?.user_name} ${item.user?.user_lastname}`.toLowerCase();
         return (
@@ -119,19 +121,19 @@ const Admin = () => {
             item.equipo_serial.toLowerCase().includes(search) ||
             item.user?.user_identification?.toLowerCase().includes(search)
         );
-        });
-
-        const searchableUsers = users.filter(user => {
+    });
+    // Busqueda de usuarios por cedula
+    const searchableUsers = users.filter(user => {
         const search = userSearchVoucher.toLowerCase();
         return (
             user.user_name.toLowerCase().includes(search) ||
             user.user_lastname.toLowerCase().includes(search) ||
             user.user_identification?.toLowerCase().includes(search)
         );
-        });
+    });
 
-        const handleLogout = async () => {
- // Logica para el log-out asincronica 
+    const handleLogout = async () => {
+        // Logica para el log-out asincronica 
         try {
             await axios.post('/api/logout');
             localStorage.removeItem('access_token');
@@ -144,7 +146,7 @@ const Admin = () => {
             navigate('/');
         }
     };
-
+    // Funcion para desplazar el carrusel
     const scrollCarousel = (direction) => {
         if (carouselRef.current) {
             const scrollAmount = 300;
@@ -154,7 +156,7 @@ const Admin = () => {
             });
         }
     };
-
+    // Funcion para editar un usuario
     const handleEditClick = (user) => {
         setEditingUser(user.id_usuario);
         setFormData({
@@ -169,6 +171,7 @@ const Admin = () => {
             profile_photo_path: user.profile_photo_path || null
         });
     };
+    // Funcion para cancelar la edicion de un usuario
     const handleCancelEdit = () => {
         setEditingUser(null);
         setSelectedFile(null);
@@ -184,18 +187,18 @@ const Admin = () => {
             fk_id_rol: ''
         });
     };
-
+    // Funcion para cambiar un dato del formulario
     const handleChange = (e) => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
         });
     };
-
+    // Funcion para cambiar un dato del formulario
     const handleFileChange = (e) => {
         setSelectedFile(e.target.files[0]);
     };
-
+    // Funcion para actualizar un usuario
     const handleUpdate = async (e) => {
         e.preventDefault();
         try {
@@ -213,10 +216,10 @@ const Admin = () => {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
-            });
-            
+            }); // El metodo axios.post se usa para enviar los datos del formulario al backend.
+
             setUsers(users.map(u => u.id_usuario === editingUser ? response.data : u));
-            
+
             // Si el usuario editado es el actual, actualizarlo también
             if (currentUser && currentUser.id_usuario === editingUser) {
                 setCurrentUser(response.data);
@@ -228,14 +231,14 @@ const Admin = () => {
             alert('Error al actualizar usuario: ' + (error.response?.data?.message || 'Error desconocido'));
         }
     };
-
+    // Funcion para cambiar un dato del formulario de equipos
     const handleEquipmentChange = (e) => {
         setEquipmentData({
             ...equipmentData,
             [e.target.name]: e.target.value
         });
     };
-
+    // Funcion para enviar el formulario de equipos
     const handleEquipmentSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -256,7 +259,7 @@ const Admin = () => {
             alert('Error al crear comprobante: ' + (error.response?.data?.message || 'Error desconocido'));
         }
     };
-
+    // Funcion para eliminar un usuario
     const handleDelete = async (id) => {
         if (window.confirm('¿Estás seguro de eliminar este usuario?')) {
             try {
@@ -277,8 +280,8 @@ const Admin = () => {
                 return (
                     <div className="fade-in-up">
                         <div className="text-center mb-5">
-                            <h2 className="mb-2" style={{fontSize: '2.5rem', fontWeight: '800', letterSpacing: '-1px'}}>
-                                Panel de <span style={{color: 'var(--primary-color)'}}>Control</span>
+                            <h2 className="mb-2" style={{ fontSize: '2.5rem', fontWeight: '800', letterSpacing: '-1px' }}>
+                                Panel de <span style={{ color: 'var(--primary-color)' }}>Control</span>
                             </h2>
                             <p className="opacity-75">Gestión integral de usuarios y registros de acceso</p>
                         </div>
@@ -286,7 +289,7 @@ const Admin = () => {
                         <div className="stats-container mx-auto">
                             <div className="stat-card">
                                 <div className="stat-icon">
-                                    <span className="material-symbols-outlined" style={{fontSize: '32px'}}>group</span>
+                                    <span className="material-symbols-outlined" style={{ fontSize: '32px' }}>group</span>
                                 </div>
                                 <div className="stat-info">
                                     <h4>Usuarios</h4>
@@ -295,7 +298,7 @@ const Admin = () => {
                             </div>
                             <div className="stat-card">
                                 <div className="stat-icon">
-                                    <span className="material-symbols-outlined" style={{fontSize: '32px'}}>login</span>
+                                    <span className="material-symbols-outlined" style={{ fontSize: '32px' }}>login</span>
                                 </div>
                                 <div className="stat-info">
                                     <h4>Ingresos Hoy</h4>
@@ -309,7 +312,7 @@ const Admin = () => {
                 return (
                     <div className="fade-in-up">
                         {editingUser && (
-                            <div className="glass-box p-4 mb-5 mx-auto fade-in-up" style={{maxWidth: '850px'}}>
+                            <div className="glass-box p-4 mb-5 mx-auto fade-in-up" style={{ maxWidth: '850px' }}>
                                 <div className="section-header">
                                     <h3 className="mb-0">Editar Perfil de Usuario</h3>
                                 </div>
@@ -318,25 +321,25 @@ const Admin = () => {
                                         <div className="col-12 mb-3 text-center">
                                             <div className="user-avatar-lg mx-auto mb-2 shadow overflow-hidden border border-success">
                                                 {selectedFile ? (
-                                                    <img src={URL.createObjectURL(selectedFile)} alt="Preview" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+                                                    <img src={URL.createObjectURL(selectedFile)} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                                 ) : formData.profile_photo_path ? (
-                                                    <img src={formData.profile_photo_path} alt="Avatar" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+                                                    <img src={formData.profile_photo_path} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                                 ) : (
-                                                    <span className="material-symbols-outlined" style={{fontSize: '3rem'}}>add_a_photo</span>
+                                                    <span className="material-symbols-outlined" style={{ fontSize: '3rem' }}>add_a_photo</span>
                                                 )}
                                             </div>
                                             <label className="btn btn-outline-success btn-sm cursor-pointer">
-                                            <span className="material-symbols-outlined small me-1">upload</span>
-                                            {selectedFile || formData.profile_photo_path ? 'Cambiar Foto' : 'Subir Foto'}
-                                            <input type="file" className="d-none" onChange={handleFileChange} accept="image/*" />
+                                                <span className="material-symbols-outlined small me-1">upload</span>
+                                                {selectedFile || formData.profile_photo_path ? 'Cambiar Foto' : 'Subir Foto'}
+                                                <input type="file" className="d-none" onChange={handleFileChange} accept="image/*" />
                                             </label>
-                                            </div>
+                                        </div>
 
-                                            <div className="col-12 mb-4">
+                                        <div className="col-12 mb-4">
                                             <FingerprintSimulation onCaptureComplete={(val) => setFingerprintCaptured(val)} />
-                                            </div>
+                                        </div>
 
-                                            <div className="col-md-4 mb-3">
+                                        <div className="col-md-4 mb-3">
 
                                             <label className="form-label opacity-75 small">N° Documento</label>
                                             <input type="text" name="user_identification" className="form-control" value={formData.user_identification} onChange={handleChange} required />
@@ -387,20 +390,20 @@ const Admin = () => {
                             </div>
                         )}
 
-                        <div className="mx-auto" style={{maxWidth: '1200px'}}>
+                        <div className="mx-auto" style={{ maxWidth: '1200px' }}>
                             <div className="d-flex justify-content-between align-items-center mb-5 flex-wrap gap-3 px-4">
                                 <div className="section-header mb-0">
                                     <h3 className="mb-0">Gestión de {userFilter === 'all' ? 'Usuarios' : userFilter + 's'}</h3>
                                     <p className="small opacity-50 mb-0">Total: {filteredUsers.length} registros</p>
                                 </div>
-                                <div className="input-group search-input-group" style={{maxWidth: '350px'}}>
+                                <div className="input-group search-input-group" style={{ maxWidth: '350px' }}>
                                     <span className="input-group-text">
                                         <span className="material-symbols-outlined">search</span>
                                     </span>
-                                    <input 
-                                        type="text" 
-                                        className="form-control" 
-                                        placeholder="Buscar..." 
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Buscar..."
                                         value={searchTermUsers}
                                         onChange={(e) => setSearchTermUsers(e.target.value)}
                                     />
@@ -411,7 +414,7 @@ const Admin = () => {
                                 <button className="carousel-nav-btn left shadow-lg" onClick={() => scrollCarousel('left')} aria-label="Anterior">
                                     <span className="material-symbols-outlined">chevron_left</span>
                                 </button>
-                                
+
                                 <div className="carousel-blur-start"></div>
                                 <div className="user-carousel d-flex gap-4 pb-4 px-5" ref={carouselRef}>
                                     {filteredUsers.length > 0 ? filteredUsers.map(user => (
@@ -439,13 +442,13 @@ const Admin = () => {
                                             <div className="user-card-header text-center pt-4 mb-3">
                                                 <div className="user-avatar-lg mx-auto mb-3 shadow overflow-hidden">
                                                     {user.profile_photo_path ? (
-                                                        <img src={user.profile_photo_path} alt="Avatar" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+                                                        <img src={user.profile_photo_path} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                                     ) : (
                                                         <>{user.user_name[0]}{user.user_lastname[0]}</>
                                                     )}
                                                 </div>
                                                 <h5 className="mb-1 text-truncate px-2">{user.user_name} {user.user_lastname}</h5>
-                                                <span className={`badge ${user.role?.rol_name === 'Admin' ? 'bg-danger' : 'bg-success'} bg-opacity-10 text-white border border-${user.role?.rol_name === 'Admin' ? 'danger' : 'success'} border-opacity-25`} style={{fontSize: '0.65rem'}}>
+                                                <span className={`badge ${user.role?.rol_name === 'Admin' ? 'bg-danger' : 'bg-success'} bg-opacity-10 text-white border border-${user.role?.rol_name === 'Admin' ? 'danger' : 'success'} border-opacity-25`} style={{ fontSize: '0.65rem' }}>
                                                     {user.role?.rol_name}
                                                 </span>
                                             </div>
@@ -467,7 +470,7 @@ const Admin = () => {
                                         </div>
                                     )) : (
                                         <div className="text-center w-100 py-5 opacity-50">
-                                            <span className="material-symbols-outlined" style={{fontSize: '48px'}}>person_off</span>
+                                            <span className="material-symbols-outlined" style={{ fontSize: '48px' }}>person_off</span>
                                             <p className="mt-2">No se encontraron usuarios</p>
                                         </div>
                                     )}
@@ -484,19 +487,19 @@ const Admin = () => {
             case 'historial':
                 return (
                     <div className="fade-in-up">
-                        <div className="table-responsive glass-box p-4 mb-5 mx-auto" style={{maxWidth: '1000px'}}>
+                        <div className="table-responsive glass-box p-4 mb-5 mx-auto" style={{ maxWidth: '1000px' }}>
                             <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
                                 <div className="section-header mb-0">
                                     <h3 className="mb-0">Historial de Accesos</h3>
                                 </div>
-                                <div className="input-group search-input-group" style={{maxWidth: '350px'}}>
+                                <div className="input-group search-input-group" style={{ maxWidth: '350px' }}>
                                     <span className="input-group-text">
                                         <span className="material-symbols-outlined">search</span>
                                     </span>
-                                    <input 
-                                        type="text" 
-                                        className="form-control" 
-                                        placeholder="Buscar en el historial..." 
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Buscar en el historial..."
                                         value={searchTermIngresos}
                                         onChange={(e) => setSearchTermIngresos(e.target.value)}
                                     />
@@ -521,12 +524,12 @@ const Admin = () => {
                                             </td>
                                             <td>
                                                 <div className="d-flex align-items-center gap-2">
-                                                    <span className="material-symbols-outlined opacity-50" style={{fontSize: '18px'}}>calendar_today</span>
+                                                    <span className="material-symbols-outlined opacity-50" style={{ fontSize: '18px' }}>calendar_today</span>
                                                     {new Date(ingreso.ingreso_datetime).toLocaleString()}
                                                 </div>
                                             </td>
                                             <td>
-                                                <span className="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 py-2" style={{fontSize: '0.75rem'}}>
+                                                <span className="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 py-2" style={{ fontSize: '0.75rem' }}>
                                                     {ingreso.ingreso_place}
                                                 </span>
                                             </td>
@@ -540,7 +543,7 @@ const Admin = () => {
             case 'equipo_entry':
                 return (
                     <div className="fade-in-up">
-                        <div className="glass-box p-4 mb-5 mx-auto" style={{maxWidth: '850px'}}>
+                        <div className="glass-box p-4 mb-5 mx-auto" style={{ maxWidth: '850px' }}>
                             <div className="section-header">
                                 <h3 className="mb-0">Nuevo Comprobante de Equipo</h3>
                                 <p className="opacity-50 small">Registrar ingreso de un dispositivo al centro</p>
@@ -553,10 +556,10 @@ const Admin = () => {
                                             <span className="input-group-text">
                                                 <span className="material-symbols-outlined small">person_search</span>
                                             </span>
-                                            <input 
-                                                type="text" 
-                                                className="form-control" 
-                                                placeholder="Nombre, apellido o identificación..." 
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                placeholder="Nombre, apellido o identificación..."
                                                 value={userSearchVoucher}
                                                 onChange={(e) => setUserSearchVoucher(e.target.value)}
                                             />
@@ -612,20 +615,20 @@ const Admin = () => {
             case 'historial_equipos':
                 return (
                     <div className="fade-in-up">
-                        <div className="table-responsive glass-box p-4 mb-5 mx-auto" style={{maxWidth: '1200px'}}>
+                        <div className="table-responsive glass-box p-4 mb-5 mx-auto" style={{ maxWidth: '1200px' }}>
                             <div className="section-header d-flex justify-content-between align-items-center flex-wrap gap-3">
                                 <div>
                                     <h3 className="mb-0">Historial de Equipos</h3>
                                     <p className="opacity-50 small">Registros de ingreso de dispositivos</p>
                                 </div>
-                                <div className="input-group search-input-group" style={{maxWidth: '350px'}}>
+                                <div className="input-group search-input-group" style={{ maxWidth: '350px' }}>
                                     <span className="input-group-text">
                                         <span className="material-symbols-outlined">search</span>
                                     </span>
-                                    <input 
-                                        type="text" 
-                                        className="form-control" 
-                                        placeholder="Buscar por usuario, equipo o serial..." 
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Buscar por usuario, equipo o serial..."
                                         value={searchTermEquipment}
                                         onChange={(e) => setSearchTermEquipment(e.target.value)}
                                     />
@@ -664,11 +667,11 @@ const Admin = () => {
                 );
             case 'profile':
                 return (
-                    <div className="fade-in-up container glass-box p-5 mx-auto" style={{maxWidth: '600px'}}>
+                    <div className="fade-in-up container glass-box p-5 mx-auto" style={{ maxWidth: '600px' }}>
                         <div className="text-center mb-4">
-                            <div className="rounded-circle bg-success mx-auto d-flex align-items-center justify-content-center mb-3 shadow overflow-hidden" style={{width: '100px', height: '100px', fontSize: '2.5rem', fontWeight: 'bold'}}>
+                            <div className="rounded-circle bg-success mx-auto d-flex align-items-center justify-content-center mb-3 shadow overflow-hidden" style={{ width: '100px', height: '100px', fontSize: '2.5rem', fontWeight: 'bold' }}>
                                 {currentUser?.profile_photo_path ? (
-                                    <img src={currentUser.profile_photo_path} alt="Profile" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+                                    <img src={currentUser.profile_photo_path} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                 ) : (
                                     <>{currentUser?.user_name[0]}{currentUser?.user_lastname[0]}</>
                                 )}
@@ -678,7 +681,7 @@ const Admin = () => {
                                 {currentUser?.role?.rol_name || 'Usuario'}
                             </span>
                         </div>
-                        
+
                         <div className="row text-start mt-4 g-4">
                             <div className="col-12">
                                 <label className="form-label opacity-50 small mb-1">Identificación</label>
@@ -728,9 +731,9 @@ const Admin = () => {
 
     const adminLinks = [
         { label: 'DASHBOARD', icon: 'dashboard', view: 'dashboard' },
-        { 
-            label: 'NOVEDADES', 
-            icon: 'report_problem', 
+        {
+            label: 'NOVEDADES',
+            icon: 'report_problem',
             view: 'novedad_historial',
             dropdown: true,
             items: [
@@ -739,9 +742,9 @@ const Admin = () => {
             ]
         },
         { label: 'HISTORIAL', icon: 'history', view: 'historial' },
-        { 
-            label: 'COMPROBANTES', 
-            icon: 'description', 
+        {
+            label: 'COMPROBANTES',
+            icon: 'description',
             view: 'equipo_entry',
             dropdown: true,
             items: [
@@ -749,9 +752,9 @@ const Admin = () => {
                 { label: 'Historial Equipos', icon: 'inventory_2', view: 'historial_equipos' }
             ]
         },
-        { 
-            label: 'GESTIÓN DE USUARIOS', 
-            icon: 'group', 
+        {
+            label: 'GESTIÓN DE USUARIOS',
+            icon: 'group',
             view: 'users',
             dropdown: true,
             items: [
@@ -764,13 +767,13 @@ const Admin = () => {
     ];
 
     return (
-        <div className="min-vh-100 d-flex flex-column fade-in-up" style={{background: 'transparent'}}>
-            <Navbar 
-                currentUser={currentUser} 
-                view={view} 
-                setView={setView} 
-                userFilter={userFilter} 
-                setUserFilter={setUserFilter} 
+        <div className="min-vh-100 d-flex flex-column fade-in-up" style={{ background: 'transparent' }}>
+            <Navbar
+                currentUser={currentUser}
+                view={view}
+                setView={setView}
+                userFilter={userFilter}
+                setUserFilter={setUserFilter}
                 links={adminLinks}
             />
 
