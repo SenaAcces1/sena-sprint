@@ -160,40 +160,41 @@ class AuthController extends Controller
         return response()->json(['message' => 'Se ha enviado el código a tu correo.'], 200);
     }
 
-    public function resetPassword(Request $request)
+    public function resetPassword(Request $request) //FUNCION PARA RESETEAR LA CONTRASEÑA
     {
         $request->validate([
-            'code' => 'required|string|max:10',
-            'password' => 'required|string|min:8|confirmed',
+            'code' => 'required|string|max:10', //VALIDA QUE EL CODIGO EXISTA
+            'password' => 'required|string|min:8|confirmed', //VALIDA QUE LA CONTRASEÑA EXISTA
         ]);
 
-        $tokenRecord = \Illuminate\Support\Facades\DB::table('token_recovery')
+        $tokenRecord = \Illuminate\Support\Facades\DB::table('token_recovery') //BUSCA EL TOKEN EN LA TABLA TOKEN_RECOVERY
             ->where('token_code', $request->code)
-            ->where('token_used', false)
-            ->where('token_exp', '>=', Carbon::now('America/Bogota'))
-            ->first();
+            ->where('token_used', false) //VALIDA QUE EL TOKEN NO SE HAYA USADO
+            ->where('token_exp', '>=', Carbon::now('America/Bogota')) //VALIDA QUE EL TOKEN NO HAYA EXPIRADO
+            ->first(); //OBTIENE EL TOKEN
 
         if (!$tokenRecord) {
             return response()->json(['message' => 'El código es inválido o ha expirado.'], 400);
         }
 
-        // Update User Password
-        $user = User::where('id_usuario', $tokenRecord->fk_id_usuario)->first();
+        $user = User::where('id_usuario', $tokenRecord->fk_id_usuario)->first(); //OBTIENE EL USUARIO
         if (!$user) {
             return response()->json(['message' => 'Usuario no encontrado.'], 404);
         }
 
-        $user->user_password = Hash::make($request->password);
-        $user->save();
+        $user->user_password = Hash::make($request->password); //ACTUALIZA LA CONTRASEÑA DEL USUARIO
+        $user->save(); //GUARDA LOS CAMBIOS EN LA BASE DE DATOS
 
-        // Mark token as used
-        \Illuminate\Support\Facades\DB::table('token_recovery')
-            ->where('id_token', $tokenRecord->id_token)
+
+        //PARA ACTUALIZAR EL ESTADO DEL TOKEN A USADO
+        \Illuminate\Support\Facades\DB::table('token_recovery') //ACTUALIZA EL ESTADO DEL TOKEN A USADO
+            ->where('id_token', $tokenRecord->id_token) //OBTIENE EL TOKEN
             ->update([
-                'token_used' => true,
-                'updated_at' => Carbon::now('America/Bogota'),
+                'token_used' => true, //ACTUALIZA EL ESTADO DEL TOKEN A USADO
+                'updated_at' => Carbon::now('America/Bogota'), //CARBON PARA LA FECHA Y HORA ACTUAL
             ]);
-
+            
+        // RETORNA LA CONTRASEÑA ACTUALIZADA
         return response()->json(['message' => 'Contraseña actualizada correctamente.'], 200);
     }
 }
