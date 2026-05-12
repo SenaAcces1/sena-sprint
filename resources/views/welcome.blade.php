@@ -20,6 +20,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.jsx'])
     </head>
     <body>
+        <!-- APP (REACT) EN LINEA PARA PRODUCCION -->
         <div id="app"></div>
         
 
